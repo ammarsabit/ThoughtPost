@@ -10,18 +10,19 @@ interface Post {
   description: string;
   content: string;
   tags: string[];
-  createdAt: string;
-  editedAt?: string;
+  createdAt: Date;
+  editedAt?: Date;
 }
 interface Props {
   blog: Post;
   onMore: (id: number) => void;
-  onBookMark: (id: number) => void;
+  onBookMark: (id: number, statues: boolean) => void;
+  onEdit: (id: number) => void;
 }
 
-// const [bookMarked, setBookMarked] = useState(false);
+const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
+  const [bookMarked, setBookMarked] = useState(false);
 
-const BlogCard = ({ blog, onMore, onBookMark }: Props) => {
   return (
     <div className="card mb-3 blog-card">
       <div className="card-body d-flex flex-column">
@@ -31,13 +32,17 @@ const BlogCard = ({ blog, onMore, onBookMark }: Props) => {
             dateStyle: "long",
           })}
         </h3>
-        <h1 className="fw-bolder" onClick={() => onMore(blog.id)}>
+        <a
+          className="fw-bolder fs-1 text-decoration-none text-dark"
+          href=""
+          onClick={() => onMore(blog.id)}
+        >
           {blog.title}
-        </h1>
+        </a>
         <p>{blog.description}</p>
         <ul className="list-group list-group-horizontal list-unstyled">
           {blog.tags.map((tag) => (
-            <li className="badge bg-primary me-1 mx-2">
+            <li key={tag} className="badge bg-primary me-1 mx-2">
               <span className="text-info">#</span>
               {tag}
             </li>
@@ -53,9 +58,17 @@ const BlogCard = ({ blog, onMore, onBookMark }: Props) => {
           </h3>
         )}
         <div className="d-flex justify-content-between">
-          <FaPen size={20} className="align-self-end"/>
+          <FaPen
+            size={20}
+            className="align-self-end"
+            onClick={() => onEdit(blog.id)}
+          />
           <button className="btn">
-            <FaRegBookmark size={30} onClick={() => onBookMark} />
+            {bookMarked ? (
+              <FaBookmark size={30} onClick={() => { setBookMarked(false); onBookMark(blog.id, false)}} />
+            ) : (
+              <FaRegBookmark size={30} onClick={() => {setBookMarked(true); onBookMark(blog.id, true)}} />
+            )}
           </button>
         </div>
       </div>
