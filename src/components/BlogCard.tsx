@@ -1,33 +1,63 @@
 import { FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark } from "react-icons/fa";
+import { useState } from "react";
+import { FaPen } from "react-icons/fa";
 
-interface Card {
-  usr_name: string;
-  date: string;
-  titile: string;
-  tags: [];
+interface Post {
+  id: number;
+  author: string;
+  title: string;
+  description: string;
+  content: string;
+  tags: string[];
+  createdAt: string;
+  editedAt?: string;
 }
-
 interface Props {
-  postInfo: Card[];
-  onMore: () => void;
+  blog: Post;
+  onMore: (id: number) => void;
+  onBookMark: (id: number) => void;
 }
 
-const BlogCard = () => {
+// const [bookMarked, setBookMarked] = useState(false);
+
+const BlogCard = ({ blog, onMore, onBookMark }: Props) => {
   return (
-    <div className="card">
+    <div className="card mb-3 blog-card">
       <div className="card-body d-flex flex-column">
-        <h2 className="fs-4">Ammar Sabit</h2>
-        <h3 className="fs-6 text-secondary">Jul 26</h3>
-        <h1 className="fw-bolder">Best React Native Icon Libraries in 2025</h1>
-          <ul className="list-group list-group-horizontal list-unstyled">
-            <li className="mx-2"><span className="text-info">#</span>reactnative</li>
-            <li className="mx-2"><span className="text-info">#</span>webdev</li>
-            <li className="mx-2"><span className="text-info">#</span>icon</li>
-            <li className="mx-2"><span className="text-info">#</span>besticon</li>
-          </ul>
-          <div className="align-self-end">
-            <FaRegBookmark size={30}/>
-          </div>
+        <h2 className="fs-4">{blog.author}</h2>
+        <h3 className="fs-6 text-secondary">
+          {new Date(blog.createdAt).toLocaleDateString("en-US", {
+            dateStyle: "long",
+          })}
+        </h3>
+        <h1 className="fw-bolder" onClick={() => onMore(blog.id)}>
+          {blog.title}
+        </h1>
+        <p>{blog.description}</p>
+        <ul className="list-group list-group-horizontal list-unstyled">
+          {blog.tags.map((tag) => (
+            <li className="badge bg-primary me-1 mx-2">
+              <span className="text-info">#</span>
+              {tag}
+            </li>
+          ))}
+        </ul>
+        {blog.editedAt && (
+          <h3 className="fs-6 mt-4 text-secondary">
+            edited {"  "}
+            {new Date(blog.editedAt).toLocaleString("en-us", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            })}
+          </h3>
+        )}
+        <div className="d-flex justify-content-between">
+          <FaPen size={20} className="align-self-end"/>
+          <button className="btn">
+            <FaRegBookmark size={30} onClick={() => onBookMark} />
+          </button>
+        </div>
       </div>
     </div>
   );
