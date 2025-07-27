@@ -87,6 +87,7 @@ function App() {
   };
 
   const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
+  const blogsWithoutDescription = blogs.map(({ description, ...blog }) => blog);
   return (
     <div>
       <NavBar />
@@ -118,7 +119,7 @@ function App() {
         <Route
           path="/blogDetail/:blogId"
           element={
-            <BlogDetails onBookMark={handleBookMark} onEdit={handleEdit} />
+            <BlogDetails blogs={blogsWithoutDescription} onBookMark={handleBookMark} onEdit={handleEdit} />
           }
         />
       </Routes>

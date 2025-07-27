@@ -75,23 +75,17 @@ const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
             className="align-self-end"
             onClick={() => onEdit(blog.id)}
           />
-          <button className="btn">
+          <button
+            className="btn"
+            onClick={() => {
+              setBookMarked(!bookMarked);
+              onBookMark(blog.id, bookMarked);
+            }}
+          >
             {blog.bookmarked ? (
-              <FaBookmark
-                size={30}
-                onClick={() => {
-                  setBookMarked(false);
-                  onBookMark(blog.id, bookMarked);
-                }}
-              />
+              <FaBookmark size={30} />
             ) : (
-              <FaRegBookmark
-                size={30}
-                onClick={() => {
-                  setBookMarked(true);
-                  onBookMark(blog.id, bookMarked);
-                }}
-              />
+              <FaRegBookmark size={30} />
             )}
           </button>
         </div>
