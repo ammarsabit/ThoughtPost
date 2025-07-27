@@ -26,3 +26,9 @@ form {
 a:hover {
   color: #8e2de2 !important; 
 }
+
+@media screen and (max-width: 700px) {
+  form {
+    width: 90vw;
+  }
+}

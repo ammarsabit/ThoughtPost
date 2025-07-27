@@ -4,20 +4,21 @@ import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 
 interface Post {
-  id: number;
+  id: string;
+  avatar: string;
   author: string;
   title: string;
   description: string;
   content: string;
-  tags: string[];
-  createdAt: Date;
-  editedAt?: Date;
+  tags: string;
+  createdAt: string;
+  editedAt?: string;
 }
 interface Props {
   blog: Post;
-  onMore: (id: number) => void;
-  onBookMark: (id: number, statues: boolean) => void;
-  onEdit: (id: number) => void;
+  onMore: (id: string) => void;
+  onBookMark: (id: string, statues: boolean) => void;
+  onEdit: (id: string) => void;
 }
 
 const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
@@ -26,12 +27,22 @@ const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
   return (
     <div className="card mb-3 blog-card">
       <div className="card-body d-flex flex-column">
-        <h2 className="fs-4">{blog.author}</h2>
-        <h3 className="fs-6 text-secondary">
-          {new Date(blog.createdAt).toLocaleDateString("en-US", {
-            dateStyle: "long",
-          })}
-        </h3>
+        <div className="d-flex">
+          <img
+            src={blog.avatar}
+            alt="author profile picture"
+            className="rounded-circle align-self-center"
+            width={60}
+          />
+          <div className="mx-3">
+            <h2 className="fs-4 align-self-center">{blog.author}</h2>
+            <h3 className="fs-6 text-secondary">
+              {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                dateStyle: "long",
+              })}
+            </h3>
+          </div>
+        </div>
         <a
           className="fw-bolder fs-1 text-decoration-none text-dark"
           href=""
@@ -41,7 +52,7 @@ const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
         </a>
         <p>{blog.description}</p>
         <ul className="list-group list-group-horizontal list-unstyled">
-          {blog.tags.map((tag) => (
+          {blog.tags.split(" ").map((tag) => (
             <li key={tag} className="badge bg-primary me-1 mx-2">
               <span className="text-info">#</span>
               {tag}
@@ -65,9 +76,21 @@ const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
           />
           <button className="btn">
             {bookMarked ? (
-              <FaBookmark size={30} onClick={() => { setBookMarked(false); onBookMark(blog.id, false)}} />
+              <FaBookmark
+                size={30}
+                onClick={() => {
+                  setBookMarked(false);
+                  onBookMark(blog.id, false);
+                }}
+              />
             ) : (
-              <FaRegBookmark size={30} onClick={() => {setBookMarked(true); onBookMark(blog.id, true)}} />
+              <FaRegBookmark
+                size={30}
+                onClick={() => {
+                  setBookMarked(true);
+                  onBookMark(blog.id, true);
+                }}
+              />
             )}
           </button>
         </div>

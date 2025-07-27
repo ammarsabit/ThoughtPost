@@ -7,7 +7,6 @@ interface BlogData {
   description: string;
   content: string;
   tags: string;
-  createdAt: Date;
 }
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const BlogForm = ({ onPost }: Props) => {
-  const [success, setSucces] = useState(false);
+  const [posted, setPosted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -24,10 +23,9 @@ const BlogForm = ({ onPost }: Props) => {
   } = useForm<BlogData>();
 
   const onSubmit = (data: BlogData) => {
-    const now = new Date();
-    onPost({...data, createdAt: now});
-    reset();
-    setSucces(true);
+    onPost(data);
+    // reset();
+    setPosted(true);
   };
   return (
     <>
@@ -37,89 +35,89 @@ const BlogForm = ({ onPost }: Props) => {
           <br /> Thought
         </h1>
       </div>
-      {success && (
+      {posted && (
         <p className="text-center text-success">
           🎉 The post is successfully made get back to the home page to see your
           blog
         </p>
       )}
-      <div className="d-flex justify-content-center">
-        <form className="card" onSubmit={handleSubmit(onSubmit)}>
-          <div className="card-body d-flex flex-column">
-            <div className="mb-3">
-              <label htmlFor="author" className="form-label">
-                Author
-              </label>
-              <input
-                {...register("author", { required: true })}
-                id="author"
-                type="text"
-                className="form-control"
-                placeholder="John Smith"
-              />
-              {errors.description?.type === "required" && (
-                <p className="text-danger">Author is required</p>
-              )}
+      {
+        /* {!posted && */ <div className="d-flex justify-content-center form-card">
+          <form className="card" onSubmit={handleSubmit(onSubmit)}>
+            <div className="card-body d-flex flex-column">
+              <div className="mb-3">
+                <label htmlFor="author" className="form-label">
+                  Author
+                </label>
+                <input
+                  {...register("author", { required: true })}
+                  id="author"
+                  type="text"
+                  className="form-control"
+                  placeholder="John Smith"
+                />
+                {errors.description?.type === "required" && (
+                  <p className="text-danger">Author is required</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="title" className="form-label">
+                  Title
+                </label>
+                <input
+                  {...register("title", { required: true })}
+                  id="title"
+                  type="text"
+                  className="form-control"
+                />
+                {errors.description?.type === "required" && (
+                  <p className="text-danger">Title is required</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="description" className="form-label">
+                  Short Description
+                </label>
+                <input
+                  {...register("description", { required: true })}
+                  id="description"
+                  type="text"
+                  className="form-control"
+                />
+                {errors.description?.type === "required" && (
+                  <p className="text-danger">Description is required</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="tags" className="form-label">
+                  Tags (space separated)
+                </label>
+                <input
+                  {...register("tags")}
+                  id="tags"
+                  type="text"
+                  className="form-control"
+                  placeholder="Example: react dev design "
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="content" className="form-label">
+                  Content
+                </label>
+                <textarea
+                  {...register("content", { required: true })}
+                  id="content"
+                  className="form-control"
+                />
+                {errors.description?.type === "required" && (
+                  <p className="text-danger">Content is required</p>
+                )}
+              </div>
+              <button className="btn btn-lg align-self-end">Post</button>
             </div>
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                Title
-              </label>
-              <input
-                {...register("title", { required: true })}
-                id="title"
-                type="text"
-                className="form-control"
-              />
-              {errors.description?.type === "required" && (
-                <p className="text-danger">Title is required</p>
-              )}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="description" className="form-label">
-                Short Description
-              </label>
-              <input
-                {...register("description", { required: true })}
-                id="description"
-                type="text"
-                className="form-control"
-              />
-              {errors.description?.type === "required" && (
-                <p className="text-danger">Description is required</p>
-              )}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="tags" className="form-label">
-                Tags (space separated)
-              </label>
-              <input
-                {...register("tags")}
-                id="tags"
-                type="text"
-                className="form-control"
-                placeholder="react dev design "
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="content" className="form-label">
-                Content
-              </label>
-              <textarea
-                {...register("content", { required: true })}
-                id="content"
-                className="form-control"
-                placeholder=""
-              />
-              {errors.description?.type === "required" && (
-                <p className="text-danger">Content is required</p>
-              )}
-            </div>
-            <button className="btn btn-lg align-self-end">Post</button>
-          </div>
-        </form>
-      </div>
-      
+          </form>
+        </div>
+      }
     </>
   );
 };
