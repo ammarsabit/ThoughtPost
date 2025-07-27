@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 interface BlogData {
   title: string;
@@ -18,13 +20,11 @@ const BlogForm = ({ onPost }: Props) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<BlogData>();
 
   const onSubmit = (data: BlogData) => {
     onPost(data);
-    // reset();
     setPosted(true);
   };
   return (
@@ -36,13 +36,16 @@ const BlogForm = ({ onPost }: Props) => {
         </h1>
       </div>
       {posted && (
-        <p className="text-center text-success">
-          🎉 The post is successfully made get back to the home page to see your
-          blog
-        </p>
+        <div>
+          <p className="text-center text-success">
+            🎉 The post is successfully made get back to the home page to see
+            your blog
+          </p>
+        </div>
       )}
       {
-        /* {!posted && */ <div className="d-flex justify-content-center form-card">
+        !posted && 
+        <div className="d-flex justify-content-center form-card">
           <form className="card" onSubmit={handleSubmit(onSubmit)}>
             <div className="card-body d-flex flex-column">
               <div className="mb-3">

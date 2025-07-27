@@ -1,0 +1,62 @@
+import NavBar from "../components/NavBar.tsx";
+import BlogCard from "../components/BlogCard.tsx";
+import { useEffect, useState } from "react";
+import BeatLoader from "react-spinners/BeatLoader";
+
+interface Blog {
+  id: string;
+  avatar: string;
+  title: string;
+  author: string;
+  description: string;
+  content: string;
+  tags: string;
+  createdAt: string;
+  editedAt?: string;
+}
+
+interface Props {
+  blogs: Blog[];
+  loading: boolean;
+  errorMessage: string;
+  onDetail: (id: string) => void;
+  onEdit: (id: string) => void;
+  onBookMark: (id: string, statues: boolean) => void;
+}
+
+const Home = ({
+  blogs,
+  loading,
+  errorMessage,
+  onBookMark,
+  onDetail,
+  onEdit,
+}: Props) => {
+  return (
+    <>
+      <NavBar />
+      <div className=" gradient-text">
+        <h1 className="text-center mb-3 fs-1 fw-bold">Blogs</h1>
+      </div>
+      <div className="d-flex justify-content-center">
+        {errorMessage && <p className="text-danger">{errorMessage}</p>}
+        {!errorMessage && loading && <BeatLoader size={30} color="#8e2de2" />}
+      </div>
+      {blogs.length === 0 && !loading ? (
+        <p className="text-danger">NO BLOGS YET!</p>
+      ) : (
+        blogs.map((blog) => (
+          <BlogCard
+            key={blog.id}
+            blog={blog}
+            onMore={onDetail}
+            onBookMark={onBookMark}
+            onEdit={onEdit}
+          />
+        ))
+      )}
+    </>
+  );
+};
+
+export default Home;

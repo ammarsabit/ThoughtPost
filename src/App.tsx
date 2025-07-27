@@ -1,11 +1,12 @@
-import NavBar from "./components/NavBar.tsx";
-import BlogForm from "./components/BlogForm.tsx";
-import BlogCard from "./components/BlogCard.tsx";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import CreateBlog from "./pages/CreateBlog";
+import BlogDetails from "./pages/BlogDetails";
+import EditBlog from "./pages/EditBlog";
+import BookMarks from "./pages/BookMarks";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
-
-const apiEndPoint = "https://688544e1f52d34140f6980f1.mockapi.io/blogs";
 
 interface Blog {
   id: string;
@@ -27,7 +28,14 @@ interface BlogInput {
   tags: string;
 }
 
+const apiEndPoint = "https://688544e1f52d34140f6980f1.mockapi.io/blogs";
+
 function App() {
+  const handleDetail = (id: string) => console.log("read more" + id);
+  const handleBookMark = (id: string, status: boolean) =>
+    console.log("Bookmark" + id, status);
+  const handleEdit = (id: string) => console.log("edit" + id);
+
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
@@ -64,36 +72,27 @@ function App() {
       });
   };
 
-  const handleMore = (id: string) => console.log("read more" + id);
-  const handleBookMark = (id: string, statues: boolean) =>
-    console.log("Bookmark" + id, statues);
-  const handleEdit = (id: string) => console.log("edit" + id);
-
-  console.log(blogs);
   return (
     <div>
-      <NavBar onNew={() => console.log(blogs)} />
-      <div className=" gradient-text">
-        <h1 className="text-center mb-3 fs-1 fw-bold">Blogs</h1>
-      </div>
-      <div className="d-flex justify-content-center">
-        {error && <p className="text-danger">{error}</p>}
-        {!error && isLoading && <div className="spinner-border"></div>}
-      </div>
-      {blogs.length === 0 && !isLoading ? (
-        <p className="text-danger">NO BLOGS YET!</p>
-      ) : (
-        blogs.map((blog) => (
-          <BlogCard
-            key={blog.id}
-            blog={blog}
-            onMore={handleMore}
-            onBookMark={handleBookMark}
-            onEdit={handleEdit}
-          />
-        ))
-      )}
-      <BlogForm onPost={addBlog} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              blogs={blogs}
+              loading={isLoading}
+              errorMessage={error}
+              onBookMark={handleBookMark}
+              onDetail={handleDetail}
+              onEdit={handleEdit}
+            />
+          }
+        />
+        <Route path="/createBlog" element={<CreateBlog onPost={addBlog}/>} />
+        <Route path="/bookmarks" element={<BookMarks/>} />
+        <Route path="/editBlog" element={<EditBlog/>} />
+        <Route path="/blogDetail/:blogId" element={<BlogDetails/>} />
+      </Routes>
     </div>
   );
 }

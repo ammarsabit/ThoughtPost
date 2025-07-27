@@ -1,29 +1,27 @@
-import React from "react";
+import { Link } from "react-router";
 
-interface Props {
-  onNew: () => void;
-}
-
-const NavBar = ({ onNew }: Props) => {
+const NavBar = () => {
   return (
     <div className="navbar">
       <div className="container-fluid">
-        <a href="#" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           <img
             src="ThoughtPost_Logo_with_Gradient_Icon1.png"
             alt="logo"
             width={120}
           />
-        </a>
-        <a className="nav-link active" href="#">
+        </Link>
+
+        <Link className="nav-link active" to="/">
           Home
-        </a>
-        <a className="nav-link" href="#">
+        </Link>
+        <Link className="nav-link" to="/bookmarks">
           Bookmarks
-        </a>
-        <button className="btn" onClick={() => onNew()}>
-          Create New Blog
-        </button>
+        </Link>
+
+        <Link to="/createblog">
+          <button className="btn">Create New Blog</button>
+        </Link>
       </div>
     </div>
   );
