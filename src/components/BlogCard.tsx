@@ -14,10 +14,10 @@ interface Post {
   tags: string;
   createdAt: string;
   editedAt?: string;
+  bookmarked: boolean;
 }
 interface Props {
   blog: Post;
-  onMore: (id: string) => void;
   onBookMark: (id: string, statues: boolean) => void;
   onEdit: (id: string) => void;
 }
@@ -76,12 +76,12 @@ const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
             onClick={() => onEdit(blog.id)}
           />
           <button className="btn">
-            {bookMarked ? (
+            {blog.bookmarked ? (
               <FaBookmark
                 size={30}
                 onClick={() => {
                   setBookMarked(false);
-                  onBookMark(blog.id, false);
+                  onBookMark(blog.id, bookMarked);
                 }}
               />
             ) : (
@@ -89,7 +89,7 @@ const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
                 size={30}
                 onClick={() => {
                   setBookMarked(true);
-                  onBookMark(blog.id, true);
+                  onBookMark(blog.id, bookMarked);
                 }}
               />
             )}

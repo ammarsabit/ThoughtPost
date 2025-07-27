@@ -14,15 +14,15 @@ interface Blog {
   tags: string;
   createdAt: string;
   editedAt?: string;
+  bookmarked: boolean
 }
 
 interface Props {
-  onDetail: (id: string) => void;
   onEdit: (id: string) => void;
   onBookMark: (id: string, statues: boolean) => void;
 }
 
-const BlogDetails = ({ onBookMark, onDetail, onEdit }: Props) => {
+const BlogDetails = ({ onBookMark, onEdit }: Props) => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -62,7 +62,6 @@ const BlogDetails = ({ onBookMark, onDetail, onEdit }: Props) => {
         <div>
           <BlogCard
             blog={blogWithoutDescription}
-            onMore={onDetail}
             onBookMark={onBookMark}
             onEdit={onEdit}
           />

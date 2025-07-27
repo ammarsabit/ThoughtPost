@@ -19,6 +19,7 @@ interface Blog {
   tags: string;
   createdAt: string;
   editedAt?: string;
+  bookmarked: boolean;
 }
 
 interface BlogInput {
@@ -32,14 +33,26 @@ interface BlogInput {
 const apiEndPoint = "https://688544e1f52d34140f6980f1.mockapi.io/blogs";
 
 function App() {
-  const handleDetail = (id: string) => console.log("read more" + id);
-  const handleBookMark = (id: string, status: boolean) =>
-    console.log("Bookmark" + id, status);
-  const handleEdit = (id: string) => console.log("edit" + id);
-
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
+
+  const handleBookMark = (id: string, status: boolean) => {
+    const origionalBlogs = [...blogs];
+    const blogToUpDate = blogs.find((blog) => blog.id === id);
+    if (!blogToUpDate) return;
+    const updatedBlog = {
+      ...blogToUpDate,
+      bookmarked: status,
+    };
+    setBlogs(blogs.map((blog) => (blog.id === id ? updatedBlog : blog)));
+    axios.put(apiEndPoint + "/" + id, updatedBlog).catch((error) => {
+      setError(error);
+      setBlogs(origionalBlogs);
+    });
+  };
+
+  const handleEdit = (id: string) => console.log("edit" + id);
 
   useEffect(() => {
     axios
@@ -73,7 +86,7 @@ function App() {
       });
   };
 
-  const blogsWithoutContent = blogs.map(({content, ...blog}) => blog)
+  const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
   return (
     <div>
       <NavBar />
@@ -86,22 +99,26 @@ function App() {
               loading={isLoading}
               errorMessage={error}
               onBookMark={handleBookMark}
-              onDetail={handleDetail}
               onEdit={handleEdit}
             />
           }
         />
         <Route path="/createBlog" element={<CreateBlog onPost={addBlog} />} />
-        <Route path="/bookmarks" element={<BookMarks />} />
+        <Route
+          path="/bookmarks"
+          element={
+            <BookMarks
+              blogs={blogsWithoutContent}
+              onBookMark={handleBookMark}
+              onEdit={handleEdit}
+            />
+          }
+        />
         <Route path="/editBlog" element={<EditBlog />} />
         <Route
           path="/blogDetail/:blogId"
           element={
-            <BlogDetails
-              onBookMark={handleBookMark}
-              onEdit={handleEdit}
-              onDetail={handleDetail}
-            />
+            <BlogDetails onBookMark={handleBookMark} onEdit={handleEdit} />
           }
         />
       </Routes>

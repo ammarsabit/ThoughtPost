@@ -10,13 +10,13 @@ interface Blog {
   tags: string;
   createdAt: string;
   editedAt?: string;
+  bookmarked: boolean;
 }
 
 interface Props {
   blogs: Blog[];
   loading: boolean;
   errorMessage: string;
-  onDetail: (id: string) => void;
   onEdit: (id: string) => void;
   onBookMark: (id: string, statues: boolean) => void;
 }
@@ -26,7 +26,6 @@ const Home = ({
   loading,
   errorMessage,
   onBookMark,
-  onDetail,
   onEdit,
 }: Props) => {
   return (
@@ -45,7 +44,6 @@ const Home = ({
           <BlogCard
             key={blog.id}
             blog={blog}
-            onMore={onDetail}
             onBookMark={onBookMark}
             onEdit={onEdit}
           />
