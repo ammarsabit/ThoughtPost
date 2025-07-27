@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { Link } from "react-router-dom";
 
 interface BlogData {
   title: string;
@@ -43,8 +41,7 @@ const BlogForm = ({ onPost }: Props) => {
           </p>
         </div>
       )}
-      {
-        !posted && 
+      {!posted && (
         <div className="d-flex justify-content-center form-card">
           <form className="card" onSubmit={handleSubmit(onSubmit)}>
             <div className="card-body d-flex flex-column">
@@ -120,7 +117,7 @@ const BlogForm = ({ onPost }: Props) => {
             </div>
           </form>
         </div>
-      }
+      )}
     </>
   );
 };

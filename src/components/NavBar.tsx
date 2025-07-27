@@ -1,15 +1,12 @@
 import { Link } from "react-router";
+import logo from "../assets/ThoughtPost_Logo_with_Gradient_Icon1.png";
 
 const NavBar = () => {
   return (
     <div className="navbar">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
-          <img
-            src="ThoughtPost_Logo_with_Gradient_Icon1.png"
-            alt="logo"
-            width={120}
-          />
+          <img src={logo} alt="logo" width={120} />
         </Link>
 
         <Link className="nav-link active" to="/">

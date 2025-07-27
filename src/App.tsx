@@ -7,6 +7,7 @@ import BookMarks from "./pages/BookMarks";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
+import NavBar from "./components/NavBar";
 
 interface Blog {
   id: string;
@@ -72,14 +73,16 @@ function App() {
       });
   };
 
+  const blogsWithoutContent = blogs.map(({content, ...blog}) => blog)
   return (
     <div>
+      <NavBar />
       <Routes>
         <Route
           path="/"
           element={
             <Home
-              blogs={blogs}
+              blogs={blogsWithoutContent}
               loading={isLoading}
               errorMessage={error}
               onBookMark={handleBookMark}
@@ -88,10 +91,19 @@ function App() {
             />
           }
         />
-        <Route path="/createBlog" element={<CreateBlog onPost={addBlog}/>} />
-        <Route path="/bookmarks" element={<BookMarks/>} />
-        <Route path="/editBlog" element={<EditBlog/>} />
-        <Route path="/blogDetail/:blogId" element={<BlogDetails/>} />
+        <Route path="/createBlog" element={<CreateBlog onPost={addBlog} />} />
+        <Route path="/bookmarks" element={<BookMarks />} />
+        <Route path="/editBlog" element={<EditBlog />} />
+        <Route
+          path="/blogDetail/:blogId"
+          element={
+            <BlogDetails
+              onBookMark={handleBookMark}
+              onEdit={handleEdit}
+              onDetail={handleDetail}
+            />
+          }
+        />
       </Routes>
     </div>
   );

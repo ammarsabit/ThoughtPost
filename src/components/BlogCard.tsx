@@ -2,14 +2,15 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface Post {
   id: string;
   avatar: string;
   author: string;
   title: string;
-  description: string;
-  content: string;
+  description?: string;
+  content?: string;
   tags: string;
   createdAt: string;
   editedAt?: string;
@@ -21,7 +22,7 @@ interface Props {
   onEdit: (id: string) => void;
 }
 
-const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
+const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
   const [bookMarked, setBookMarked] = useState(false);
 
   return (
@@ -43,15 +44,14 @@ const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
             </h3>
           </div>
         </div>
-        <a
+        <Link
           className="fw-bolder fs-1 text-decoration-none text-dark"
-          href=""
-          onClick={() => onMore(blog.id)}
+          to={"/blogDetail/" + blog.id}
         >
           {blog.title}
-        </a>
-        <p>{blog.description}</p>
-        <ul className="list-group list-group-horizontal list-unstyled">
+        </Link>
+        {blog.description && <p>{blog.description}</p>}
+        <ul className="list-group list-group-horizontal list-unstyled mb-2">
           {blog.tags.split(" ").map((tag) => (
             <li key={tag} className="badge bg-primary me-1 mx-2">
               <span className="text-info">#</span>
@@ -59,6 +59,7 @@ const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
             </li>
           ))}
         </ul>
+        {blog.content && <p className="fs-3">{blog.content}</p>}
         {blog.editedAt && (
           <h3 className="fs-6 mt-4 text-secondary">
             edited {"  "}
@@ -68,7 +69,7 @@ const BlogCard = ({ blog, onMore, onBookMark, onEdit }: Props) => {
             })}
           </h3>
         )}
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between mt-1">
           <FaPen
             size={20}
             className="align-self-end"
