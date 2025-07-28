@@ -4,10 +4,10 @@ import CreateBlog from "./pages/CreateBlog";
 import BlogDetails from "./pages/BlogDetails";
 import EditBlog from "./pages/EditBlog";
 import BookMarks from "./pages/BookMarks";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
+import apiClient from "./services/api-client";
 
 interface Blog {
   id: string;
@@ -22,7 +22,7 @@ interface Blog {
   bookmarked: boolean;
 }
 
-interface BlogInput {
+interface CreateInput {
   title: string;
   author: string;
   description: string;
@@ -30,33 +30,18 @@ interface BlogInput {
   tags: string;
 }
 
-const apiEndPoint = "https://688544e1f52d34140f6980f1.mockapi.io/blogs";
+interface EditInput extends CreateInput {
+  id: string;
+}
 
 function App() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
 
-  const handleBookMark = (id: string, status: boolean) => {
-    const origionalBlogs = [...blogs];
-    const blogToUpDate = blogs.find((blog) => blog.id === id);
-    if (!blogToUpDate) return;
-    const updatedBlog = {
-      ...blogToUpDate,
-      bookmarked: status,
-    };
-    setBlogs(blogs.map((blog) => (blog.id === id ? updatedBlog : blog)));
-    axios.put(apiEndPoint + "/" + id, updatedBlog).catch((error) => {
-      setError(error);
-      setBlogs(origionalBlogs);
-    });
-  };
-
-  const handleEdit = (id: string) => console.log("edit" + id);
-
   useEffect(() => {
-    axios
-      .get<Blog[]>(apiEndPoint)
+    apiClient
+      .get<Blog[]>("/blogs")
       .then((response) => {
         setBlogs(response.data);
         setLoading(false);
@@ -67,7 +52,7 @@ function App() {
       });
   }, []);
 
-  const addBlog = (data: BlogInput) => {
+  const handleAddBlog = (data: CreateInput) => {
     const origionalBlog = [...blogs];
     const newBlog = {
       title: data.title,
@@ -76,8 +61,8 @@ function App() {
       content: data.content,
       tags: data.tags,
     };
-    axios
-      .post(apiEndPoint, newBlog)
+    apiClient
+      .post("/blogs", newBlog)
       .then((response) => {
         setBlogs([...blogs, response.data]);
       })
@@ -86,6 +71,46 @@ function App() {
       });
   };
 
+  const handleBookMark = (id: string, status: boolean) => {
+    const origionalBlogs = [...blogs];
+    const blogToUpDate = blogs.find((blog) => blog.id === id);
+    if (!blogToUpDate) return;
+    const updatedBlog = {
+      ...blogToUpDate,
+      bookmarked: status,
+    };
+    setBlogs(blogs.map((blog) => (blog.id === id ? updatedBlog : blog)));
+    apiClient.put("/blogs/" + id, updatedBlog).catch((error) => {
+      setError(error);
+      setBlogs(origionalBlogs);
+    });
+  };
+
+  const handleBlogEdit = (data: EditInput) => {
+    const blogToEdit = blogs.find((blog) => blog.id === data.id);
+    if (!blogToEdit) return;
+    const updatedBlog = {
+      ...blogToEdit,
+      title: data.title,
+      author: data.author,
+      description: data.description,
+      content: data.content,
+      tags: data.tags,
+    };
+
+    apiClient
+      .put("/blogs/" + data.id, updatedBlog)
+      .then((response) => {
+        setBlogs(
+          blogs.map((blog) => (blog.id === data.id ? response.data : blog))
+        );
+      })
+      .catch((error) => {
+        setError(error);
+      });
+
+    if (!blogToEdit) return;
+  };
   const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
   const blogsWithoutDescription = blogs.map(({ description, ...blog }) => blog);
   return (
@@ -100,26 +125,33 @@ function App() {
               loading={isLoading}
               errorMessage={error}
               onBookMark={handleBookMark}
-              onEdit={handleEdit}
             />
           }
         />
-        <Route path="/createBlog" element={<CreateBlog onPost={addBlog} />} />
+        <Route
+          path="/createBlog"
+          element={<CreateBlog onFormSubmit={handleAddBlog} />}
+        />
         <Route
           path="/bookmarks"
           element={
             <BookMarks
               blogs={blogsWithoutContent}
               onBookMark={handleBookMark}
-              onEdit={handleEdit}
             />
           }
         />
-        <Route path="/editBlog" element={<EditBlog />} />
+        <Route
+          path="/editBlog/:blogId"
+          element={<EditBlog blogs={blogs} onUpdate={handleBlogEdit} />}
+        />
         <Route
           path="/blogDetail/:blogId"
           element={
-            <BlogDetails blogs={blogsWithoutDescription} onBookMark={handleBookMark} onEdit={handleEdit} />
+            <BlogDetails
+              blogs={blogsWithoutDescription}
+              onBookMark={handleBookMark}
+            />
           }
         />
       </Routes>

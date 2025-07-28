@@ -17,7 +17,6 @@ interface Props {
   blogs: Blog[];
   loading: boolean;
   errorMessage: string;
-  onEdit: (id: string) => void;
   onBookMark: (id: string, statues: boolean) => void;
 }
 
@@ -26,7 +25,6 @@ const Home = ({
   loading,
   errorMessage,
   onBookMark,
-  onEdit,
 }: Props) => {
   return (
     <>
@@ -45,7 +43,6 @@ const Home = ({
             key={blog.id}
             blog={blog}
             onBookMark={onBookMark}
-            onEdit={onEdit}
           />
         ))
       )}

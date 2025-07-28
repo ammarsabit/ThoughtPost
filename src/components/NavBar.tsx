@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import logo from "../assets/ThoughtPost_Logo_with_Gradient_Icon1.png";
+import logo from "../assets/ThoughtPost_Logo.png";
 
 const NavBar = () => {
   return (

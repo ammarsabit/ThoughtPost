@@ -16,17 +16,17 @@ interface Post {
   editedAt?: string;
   bookmarked: boolean;
 }
+
 interface Props {
   blog: Post;
   onBookMark: (id: string, statues: boolean) => void;
-  onEdit: (id: string) => void;
 }
 
-const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
+const BlogCard = ({ blog, onBookMark}: Props) => {
   const [bookMarked, setBookMarked] = useState(false);
 
   return (
-    <div className="card mb-3 blog-card">
+    <div className="card m-3 blog-card">
       <div className="card-body d-flex flex-column">
         <div className="d-flex">
           <img
@@ -59,7 +59,7 @@ const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
             </li>
           ))}
         </ul>
-        {blog.content && <p className="fs-3">{blog.content}</p>}
+        {blog.content && <p className="fs-3 ms-5 me-5">{blog.content}</p>}
         {blog.editedAt && (
           <h3 className="fs-6 mt-4 text-secondary">
             edited {"  "}
@@ -70,11 +70,9 @@ const BlogCard = ({ blog, onBookMark, onEdit }: Props) => {
           </h3>
         )}
         <div className="d-flex justify-content-between mt-1">
-          <FaPen
-            size={20}
-            className="align-self-end"
-            onClick={() => onEdit(blog.id)}
-          />
+          <Link to={"/editblog/" + blog.id}>
+            <FaPen size={20} className="align-self-end" />
+          </Link>
           <button
             className="btn"
             onClick={() => {

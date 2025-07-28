@@ -9,11 +9,11 @@ interface BlogInput {
 }
 
 interface Props {
-  onPost: (data: BlogInput) => void;
+  onFormSubmit: (data: BlogInput) => void;
 }
 
-const CreateBlog = ({ onPost }: Props) => {
-  return <BlogForm onPost={onPost} />;
+const CreateBlog = ({ onFormSubmit }: Props) => {
+  return <BlogForm formSubmit={ onFormSubmit } />;
 };
 
 export default CreateBlog;

@@ -8,17 +8,15 @@ interface Blog {
   description: string;
   tags: string;
   createdAt: string;
-  editedAt?: string;
   bookmarked: boolean;
 }
 
 interface Props {
   blogs: Blog[];
-  onEdit: (id: string) => void;
   onBookMark: (id: string, statues: boolean) => void;
 }
 
-const BookMarks = ({ blogs, onEdit, onBookMark }: Props) => {
+const BookMarks = ({ blogs, onBookMark }: Props) => {
   return (
     <>
       <div className=" gradient-text">
@@ -32,7 +30,6 @@ const BookMarks = ({ blogs, onEdit, onBookMark }: Props) => {
             key={blog.id}
             blog={blog}
             onBookMark={onBookMark}
-            onEdit={onEdit}
           />
         ))}
     </>

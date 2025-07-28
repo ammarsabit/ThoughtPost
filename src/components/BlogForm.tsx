@@ -10,11 +10,12 @@ interface BlogData {
 }
 
 interface Props {
-  onPost: (data: BlogData) => void;
+  edit?: BlogData;
+  formSubmit: (data: BlogData) => void;
 }
 
-const BlogForm = ({ onPost }: Props) => {
-  const [posted, setPosted] = useState(false);
+const BlogForm = ({ edit, formSubmit }: Props) => {
+  const [submited, setSubmited] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,18 +23,24 @@ const BlogForm = ({ onPost }: Props) => {
   } = useForm<BlogData>();
 
   const onSubmit = (data: BlogData) => {
-    onPost(data);
-    setPosted(true);
+    formSubmit(data);
+    setSubmited(true);
   };
   return (
     <>
       <div className=" gradient-text">
-        <h1 className="text-center mb-3 fs-1 fw-bold">
-          Through Your
-          <br /> Thought
-        </h1>
+        {edit ? (
+          <p className="text-center mb-3 fs-1 fw-bold">
+            Refine Your <br /> Thought
+          </p>
+        ) : (
+          <h1 className="text-center mb-3 fs-1 fw-bold">
+            Through Your
+            <br /> Thought
+          </h1>
+        )}
       </div>
-      {posted && (
+      {submited && (
         <div>
           <p className="text-center text-success">
             🎉 The post is successfully made get back to the home page to see
@@ -41,7 +48,7 @@ const BlogForm = ({ onPost }: Props) => {
           </p>
         </div>
       )}
-      {!posted && (
+      {!submited && (
         <div className="d-flex justify-content-center form-card">
           <form className="card" onSubmit={handleSubmit(onSubmit)}>
             <div className="card-body d-flex flex-column">
@@ -55,6 +62,7 @@ const BlogForm = ({ onPost }: Props) => {
                   type="text"
                   className="form-control"
                   placeholder="John Smith"
+                  defaultValue={edit ? edit.author : ""}
                 />
                 {errors.description?.type === "required" && (
                   <p className="text-danger">Author is required</p>
@@ -69,6 +77,7 @@ const BlogForm = ({ onPost }: Props) => {
                   id="title"
                   type="text"
                   className="form-control"
+                  defaultValue={edit ? edit.title : ""}
                 />
                 {errors.description?.type === "required" && (
                   <p className="text-danger">Title is required</p>
@@ -83,6 +92,7 @@ const BlogForm = ({ onPost }: Props) => {
                   id="description"
                   type="text"
                   className="form-control"
+                  defaultValue={edit ? edit.description : ""}
                 />
                 {errors.description?.type === "required" && (
                   <p className="text-danger">Description is required</p>
@@ -97,7 +107,8 @@ const BlogForm = ({ onPost }: Props) => {
                   id="tags"
                   type="text"
                   className="form-control"
-                  placeholder="Example: react dev design "
+                  placeholder="Example: react dev design"
+                  defaultValue={edit ? edit.tags : ""}
                 />
               </div>
               <div className="mb-3">
@@ -108,6 +119,7 @@ const BlogForm = ({ onPost }: Props) => {
                   {...register("content", { required: true })}
                   id="content"
                   className="form-control"
+                  defaultValue={edit ? edit.content : ""}
                 />
                 {errors.description?.type === "required" && (
                   <p className="text-danger">Content is required</p>
