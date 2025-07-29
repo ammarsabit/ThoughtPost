@@ -12,7 +12,6 @@ import { atom, useAtom } from "jotai";
 
 export const themeAtom = atom("light");
 
-
 interface Blog {
   id: string;
   avatar: string;
@@ -36,13 +35,14 @@ interface CreateInput {
 
 interface EditInput extends CreateInput {
   id: string;
+  editedAt: string;
 }
 
 function App() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
-  const [theme] = useAtom(themeAtom)
+  const [theme] = useAtom(themeAtom);
 
   useEffect(() => {
     apiClient
@@ -101,6 +101,7 @@ function App() {
       description: data.description,
       content: data.content,
       tags: data.tags,
+      editedAt: data.editedAt,
     };
 
     apiClient

@@ -9,6 +9,7 @@ interface BlogData {
   description: string;
   content: string;
   tags: string;
+  editedAt?: string;
 }
 
 interface Props {
@@ -26,7 +27,8 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
   } = useForm<BlogData>();
 
   const onSubmit = (data: BlogData) => {
-    formSubmit(data);
+    const now = new Date();
+    edit ? formSubmit({...data, editedAt: now.toString()}) : formSubmit(data);
     setSubmited(true);
   };
   return (
