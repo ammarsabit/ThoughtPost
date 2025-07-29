@@ -8,5 +8,5 @@ export default defineConfig({
     port: 5173, // optional: change if needed
   },
   plugins: [react()],
-  base: './',
+  base: '/',
 })
