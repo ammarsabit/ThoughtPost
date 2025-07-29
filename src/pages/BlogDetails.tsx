@@ -22,10 +22,16 @@ const BlogDetails = ({ blogs, onBookMark }: Props) => {
   const { blogId } = useParams<{ blogId: string }>();
   const blog = blogs.find((blog) => blog.id === blogId);
   if (!blog) return <p className="text-danger">Blog not found!</p>;
+
   return (
-    <div className="container blog-detail-container">
-      <BlogCard blog={blog} onBookMark={onBookMark} />
-    </div>
+    <>
+      <div className=" gradient-text">
+        <h1 className="text-center mb-3 fs-1 fw-bold">Blog</h1>
+      </div>
+      <div className="blog-detail-container">
+        <BlogCard blog={blog} onBookMark={onBookMark} />
+      </div>
+    </>
   );
 };
 

@@ -35,9 +35,13 @@ a:hover {
 }
 
 .blog-detail-container {
-  max-width: 800px;
+  width: 80vw;
   margin: auto;
-  padding: 1rem;
+}
+
+.blog-content {
+  margin-left: 20px;
+  text-align: start;
 }
 
 .blog-card.page-dark {
@@ -65,5 +69,13 @@ a:hover {
 @media screen and (max-width: 700px) {
   form {
     width: 90vw;
+  }
+
+  .blog-detail-container {
+    width: 95vw !important;
+  }
+
+  .blog-content {
+    margin-left: 0;
   }
 }

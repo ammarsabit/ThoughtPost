@@ -62,7 +62,7 @@ const BlogCard = ({ blog, onBookMark }: Props) => {
             </li>
           ))}
         </ul>
-        {blog.content && <p className="fs-3 ms-5 me-5">{blog.content}</p>}
+        {blog.content && <p className="fs-5 blog-content">{blog.content}</p>}
         {blog.editedAt && (
           <h3 className="fs-6 mt-4 text-secondary">
             edited {"  "}
