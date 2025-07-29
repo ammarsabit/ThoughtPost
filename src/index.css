@@ -31,7 +31,7 @@ a:hover {
 }
 
 .app-container {
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .blog-detail-container {
