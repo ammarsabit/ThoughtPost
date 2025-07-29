@@ -33,21 +33,36 @@ const BlogCard = ({ blog, onBookMark, onDelete }: Props) => {
   return (
     <div className={`card m-3 blog-card p-3 page-${theme}`}>
       <div className="card-body d-flex flex-column">
-        <div className="d-flex">
-          <img
-            src={blog.avatar}
-            alt="author profile picture"
-            className="rounded-circle align-self-center"
-            width={60}
-          />
-          <div className="mx-3">
-            <h2 className="fs-4 align-self-center">{blog.author}</h2>
-            <h3 className="fs-6 text-secondary">
-              {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                dateStyle: "long",
-              })}
-            </h3>
+        <div className="d-flex justify-content-sm-between">
+          <div className="d-flex">
+            <img
+              src={blog.avatar}
+              alt="author profile picture"
+              className="rounded-circle align-self-center"
+              width={60}
+            />
+            <div className="mx-3">
+              <h2 className="fs-4 align-self-center">{blog.author}</h2>
+              <h3 className="fs-6 text-secondary">
+                {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                  dateStyle: "long",
+                })}
+              </h3>
+            </div>
           </div>
+          <button
+            className="btn btn-small"
+            onClick={() => {
+              setBookMarked(!bookMarked);
+              onBookMark(blog.id, bookMarked);
+            }}
+          >
+            {blog.bookmarked ? (
+              <FaBookmark color="#ff6a00" size={30} />
+            ) : (
+              <FaRegBookmark color="#ff6a00" size={30} />
+            )}
+          </button>
         </div>
         <Link
           className={`fw-bolder fs-1 text-decoration-none page-${theme}`}
@@ -82,20 +97,12 @@ const BlogCard = ({ blog, onBookMark, onDelete }: Props) => {
             <FaPen size={20} className="align-self-end" />
           </Link>
           <div>
-            <FaTrashAlt size={30} color="red" className="mx-1 cursor-pointer" onClick={() => onDelete(blog.id)} />
-            <button
-              className="btn btn-small btn-native"
-              onClick={() => {
-                setBookMarked(!bookMarked);
-                onBookMark(blog.id, bookMarked);
-              }}
-            >
-              {blog.bookmarked ? (
-                <FaBookmark size={30} />
-              ) : (
-                <FaRegBookmark size={30} />
-              )}
-            </button>
+            <FaTrashAlt
+              size={30}
+              color="red"
+              className="mx-1 cursor-pointer"
+              onClick={() => onDelete(blog.id)}
+            />
           </div>
         </div>
       </div>

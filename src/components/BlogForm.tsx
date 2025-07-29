@@ -132,7 +132,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   <p className="text-danger">Content is required</p>
                 )}
               </div>
-              <button className="btn btn-lg btn-native align-self-end">Post</button>
+              <button className="btn btn-lg btn-native align-self-end">{edit ? "Save" : "Post"}</button>
             </div>
           </form>
         </div>
