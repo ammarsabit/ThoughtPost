@@ -1,9 +1,9 @@
-button {
+.btn-native {
   background: linear-gradient(to right, #8e2de2, #e100ff, #ff6a00);
   color: white !important;
 }
 
-button:hover {
+.btn-native {
   opacity: 0.8;
 }
 
@@ -44,6 +44,10 @@ a:hover {
   text-align: start;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .blog-card.page-dark {
   border: 1px solid grey !important;
 }
@@ -57,6 +61,12 @@ a:hover {
   background-color: #121212 !important;
   color: #eee !important;
 }
+
+.card.card-dark {
+  background-color: #414141 !important;
+  color: #fff;
+}
+
 
 .blog-card.page-light:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);

@@ -1,16 +1,19 @@
+import { atom, useAtom } from "jotai";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import CreateBlog from "./pages/CreateBlog";
-import BlogDetails from "./pages/BlogDetails";
-import EditBlog from "./pages/EditBlog";
-import BookMarks from "./pages/BookMarks";
 import { useEffect, useState } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
 import apiClient from "./services/api-client";
-import { atom, useAtom } from "jotai";
+import BlogDetails from "./pages/BlogDetails";
+import BookMarks from "./pages/BookMarks";
+import CreateBlog from "./pages/CreateBlog";
+import EditBlog from "./pages/EditBlog";
+import Home from "./pages/Home";
+import NavBar from "./components/NavBar";
+import Confirmation from "./components/Confirmation";
 
-export const themeAtom = atom("light");
+export const themeAtom = atom("dark");
+export const confirmAtom = atom("");
+export const deleteTitleAtom = atom("");
 
 interface Blog {
   id: string;
@@ -41,7 +44,14 @@ function App() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
+
   const [theme] = useAtom(themeAtom);
+
+  // Delete post
+  const [selection, setSelection] = useAtom(confirmAtom);
+  const [, setDeleteTitle] = useAtom(deleteTitleAtom);
+  const [isConfirming, setConfirming] = useState(false);
+  const [blogIdToDelete, setBlogIdToDelete] = useState("");
 
   useEffect(() => {
     apiClient
@@ -117,10 +127,39 @@ function App() {
 
     if (!blogToEdit) return;
   };
+
+  const handleDelete = (id: string) => {
+    const blogToDelete = blogs.find((blog) => blog.id === id);
+    if (!blogToDelete) return;
+
+    setDeleteTitle(blogToDelete.title);
+    setConfirming(true);
+    setBlogIdToDelete(id);
+    setSelection("");
+  };
+
+  useEffect(() => {
+    if (!isConfirming || !blogIdToDelete) return;
+
+    if (selection === "delete") {
+      const updatedBlogs = blogs.filter((blog) => blog.id !== blogIdToDelete);
+      apiClient
+        .delete("/blogs/" + blogIdToDelete)
+        .then(() => setBlogs(updatedBlogs))
+        .catch((error) => setError(error.message));
+    }
+
+    
+    setSelection("");
+    setBlogIdToDelete("")
+    setConfirming(false);
+  }, [selection]);
+
   const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
   const blogsWithoutDescription = blogs.map(({ description, ...blog }) => blog);
   return (
     <div className={`app-container p-3 page-${theme}`}>
+      {isConfirming && <Confirmation />}
       <NavBar />
       <Routes>
         <Route
@@ -131,6 +170,7 @@ function App() {
               loading={isLoading}
               errorMessage={error}
               onBookMark={handleBookMark}
+              onDelete={handleDelete}
             />
           }
         />
@@ -144,6 +184,7 @@ function App() {
             <BookMarks
               blogs={blogsWithoutContent}
               onBookMark={handleBookMark}
+              onDelete={handleDelete}
             />
           }
         />
@@ -157,6 +198,7 @@ function App() {
             <BlogDetails
               blogs={blogsWithoutDescription}
               onBookMark={handleBookMark}
+              onDelete={handleDelete}
             />
           }
         />

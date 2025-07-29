@@ -16,9 +16,10 @@ interface Blog {
 interface Props {
   blogs: Blog[];
   onBookMark: (id: string, statues: boolean) => void;
+  onDelete: (id: string) => void;
 }
 
-const BlogDetails = ({ blogs, onBookMark }: Props) => {
+const BlogDetails = ({ blogs, onBookMark, onDelete }: Props) => {
   const { blogId } = useParams<{ blogId: string }>();
   const blog = blogs.find((blog) => blog.id === blogId);
   if (!blog) return <p className="text-danger">Blog not found!</p>;
@@ -29,7 +30,7 @@ const BlogDetails = ({ blogs, onBookMark }: Props) => {
         <h1 className="text-center mb-3 fs-1 fw-bold">Blog</h1>
       </div>
       <div className="blog-detail-container">
-        <BlogCard blog={blog} onBookMark={onBookMark} />
+        <BlogCard blog={blog} onBookMark={onBookMark} onDelete={onDelete} />
       </div>
     </>
   );

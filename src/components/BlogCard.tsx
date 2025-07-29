@@ -5,6 +5,7 @@ import { FaPen } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
 import { themeAtom } from "../App";
+import { FaTrashAlt } from "react-icons/fa";
 
 interface Post {
   id: string;
@@ -22,9 +23,10 @@ interface Post {
 interface Props {
   blog: Post;
   onBookMark: (id: string, statues: boolean) => void;
+  onDelete: (id: string) => void;
 }
 
-const BlogCard = ({ blog, onBookMark }: Props) => {
+const BlogCard = ({ blog, onBookMark, onDelete }: Props) => {
   const [bookMarked, setBookMarked] = useState(false);
   const [theme] = useAtom(themeAtom);
 
@@ -73,22 +75,28 @@ const BlogCard = ({ blog, onBookMark }: Props) => {
           </h3>
         )}
         <div className="d-flex justify-content-between mt-1">
-          <Link to={"/editblog/" + blog.id} className={`text-decoration-none page-${theme}`}>
+          <Link
+            to={"/editblog/" + blog.id}
+            className={`text-decoration-none page-${theme}`}
+          >
             <FaPen size={20} className="align-self-end" />
           </Link>
-          <button
-            className="btn"
-            onClick={() => {
-              setBookMarked(!bookMarked);
-              onBookMark(blog.id, bookMarked);
-            }}
-          >
-            {blog.bookmarked ? (
-              <FaBookmark size={30} />
-            ) : (
-              <FaRegBookmark size={30} />
-            )}
-          </button>
+          <div>
+            <FaTrashAlt size={30} color="red" className="mx-1 cursor-pointer" onClick={() => onDelete(blog.id)} />
+            <button
+              className="btn btn-small btn-native"
+              onClick={() => {
+                setBookMarked(!bookMarked);
+                onBookMark(blog.id, bookMarked);
+              }}
+            >
+              {blog.bookmarked ? (
+                <FaBookmark size={30} />
+              ) : (
+                <FaRegBookmark size={30} />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

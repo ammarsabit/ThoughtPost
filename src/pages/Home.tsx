@@ -18,6 +18,7 @@ interface Props {
   loading: boolean;
   errorMessage: string;
   onBookMark: (id: string, statues: boolean) => void;
+  onDelete: (id: string) => void;
 }
 
 const Home = ({
@@ -25,6 +26,7 @@ const Home = ({
   loading,
   errorMessage,
   onBookMark,
+  onDelete
 }: Props) => {
   return (
     <>
@@ -43,6 +45,7 @@ const Home = ({
             key={blog.id}
             blog={blog}
             onBookMark={onBookMark}
+            onDelete={onDelete}
           />
         ))
       )}

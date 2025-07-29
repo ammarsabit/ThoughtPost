@@ -27,21 +27,21 @@ const NavBar = () => {
         </Link>
 
         <Link to="/createblog">
-          <button className="btn">Create New Blog</button>
+          <button className="btn btn-native">Create New Blog</button>
         </Link>
         {theme === "light" ? (
           <IoMoonSharp
             size={40}
             color="black"
             onClick={() => setTheme("dark")}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
         ) : (
           <IoIosSunny
             size={40}
             color="orange"
             onClick={() => setTheme("light")}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer"
           />
         )}
       </div>
