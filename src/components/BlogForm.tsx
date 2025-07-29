@@ -27,8 +27,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
   } = useForm<BlogData>();
 
   const onSubmit = (data: BlogData) => {
-    const now = new Date();
-    edit ? formSubmit({...data, editedAt: now.toString()}) : formSubmit(data);
+    formSubmit(data);
     setSubmited(true);
   };
   return (

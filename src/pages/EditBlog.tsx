@@ -45,11 +45,16 @@ const EditBlog = ({ blogs, onUpdate }: Props) => {
   };
 
   const handleSubmit = (data: FormInput) => {
-    if (!blogWithId) return;
-    onUpdate({ ...data, id: blogId } as Blog);
-  };
+    if (!blogWithId ) return;
+    onUpdate({...data, id: blogId} as Blog)
 
-  return <BlogForm edit={toBeEdited} formSubmit={handleSubmit} />;
+  }
+
+  return (
+    <div>
+      <BlogForm edit={toBeEdited} formSubmit={handleSubmit} />
+    </div>
+  );
 };
 
 export default EditBlog;

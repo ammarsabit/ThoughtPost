@@ -35,7 +35,6 @@ interface CreateInput {
 
 interface EditInput extends CreateInput {
   id: string;
-  editedAt: string;
 }
 
 function App() {
@@ -93,6 +92,7 @@ function App() {
 
   const handleBlogEdit = (data: EditInput) => {
     const blogToEdit = blogs.find((blog) => blog.id === data.id);
+    const now = Date();
     if (!blogToEdit) return;
     const updatedBlog = {
       ...blogToEdit,
@@ -101,7 +101,7 @@ function App() {
       description: data.description,
       content: data.content,
       tags: data.tags,
-      editedAt: data.editedAt,
+      editedAt: now,
     };
 
     apiClient
