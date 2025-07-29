@@ -3,6 +3,8 @@ import { FaBookmark } from "react-icons/fa";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useAtom } from "jotai";
+import { themeAtom } from "../App";
 
 interface Post {
   id: string;
@@ -22,11 +24,12 @@ interface Props {
   onBookMark: (id: string, statues: boolean) => void;
 }
 
-const BlogCard = ({ blog, onBookMark}: Props) => {
+const BlogCard = ({ blog, onBookMark }: Props) => {
   const [bookMarked, setBookMarked] = useState(false);
+  const [theme] = useAtom(themeAtom);
 
   return (
-    <div className="card m-3 blog-card">
+    <div className={`card m-3 blog-card p-3 page-${theme}`}>
       <div className="card-body d-flex flex-column">
         <div className="d-flex">
           <img
@@ -45,7 +48,7 @@ const BlogCard = ({ blog, onBookMark}: Props) => {
           </div>
         </div>
         <Link
-          className="fw-bolder fs-1 text-decoration-none text-dark"
+          className={`fw-bolder fs-1 text-decoration-none page-${theme}`}
           to={"/blogDetail/" + blog.id}
         >
           {blog.title}
@@ -70,7 +73,7 @@ const BlogCard = ({ blog, onBookMark}: Props) => {
           </h3>
         )}
         <div className="d-flex justify-content-between mt-1">
-          <Link to={"/editblog/" + blog.id}>
+          <Link to={"/editblog/" + blog.id} className={`text-decoration-none page-${theme}`}>
             <FaPen size={20} className="align-self-end" />
           </Link>
           <button

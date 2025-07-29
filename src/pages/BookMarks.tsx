@@ -22,15 +22,10 @@ const BookMarks = ({ blogs, onBookMark }: Props) => {
       <div className=" gradient-text">
         <h1 className="text-center mb-3 fs-1 fw-bold">Bookmarked</h1>
       </div>
-
       {blogs
         .filter((blog) => blog.bookmarked)
         .map((blog) => (
-          <BlogCard
-            key={blog.id}
-            blog={blog}
-            onBookMark={onBookMark}
-          />
+          <BlogCard key={blog.id} blog={blog} onBookMark={onBookMark} />
         ))}
     </>
   );

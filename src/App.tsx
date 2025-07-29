@@ -8,6 +8,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import apiClient from "./services/api-client";
+import { atom, useAtom } from "jotai";
+
+export const themeAtom = atom("light");
+
 
 interface Blog {
   id: string;
@@ -38,6 +42,7 @@ function App() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
+  const [theme] = useAtom(themeAtom)
 
   useEffect(() => {
     apiClient
@@ -114,7 +119,7 @@ function App() {
   const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
   const blogsWithoutDescription = blogs.map(({ description, ...blog }) => blog);
   return (
-    <div>
+    <div className={`app-container p-3 page-${theme}`}>
       <NavBar />
       <Routes>
         <Route

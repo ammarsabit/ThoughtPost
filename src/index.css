@@ -1,9 +1,3 @@
-.gradient-text {
-  background-image: linear-gradient(#8e2de2, #e100ff, #ff6a00);
-  color: transparent;
-  background-clip: text;
-}
-
 button {
   background: linear-gradient(to right, #8e2de2, #e100ff, #ff6a00);
   color: white !important;
@@ -13,17 +7,31 @@ button:hover {
   opacity: 0.8;
 }
 
-.blog-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
 form {
   width: 40vw;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
+a.page-light {
+  color: #222 !important;
+}
+
+a.page-dark {
+  color: #eee !important;
+}
+
 a:hover {
   color: #8e2de2 !important;
+}
+
+.gradient-text {
+  background-image: linear-gradient(#8e2de2, #e100ff, #ff6a00);
+  color: transparent;
+  background-clip: text;
+}
+
+.app-container {
+  height: 100vh;
 }
 
 .blog-detail-container {
@@ -32,6 +40,27 @@ a:hover {
   padding: 1rem;
 }
 
+.blog-card.page-dark {
+  border: 1px solid grey !important;
+}
+
+.page-light {
+  background-color: #ffffff;
+  color: #222;
+}
+
+.page-dark {
+  background-color: #121212 !important;
+  color: #eee !important;
+}
+
+.blog-card.page-light:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.blog-card.page-dark:hover {
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+}
 
 @media screen and (max-width: 700px) {
   form {

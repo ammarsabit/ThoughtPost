@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CreateBlog = ({ onFormSubmit }: Props) => {
-  return <BlogForm formSubmit={ onFormSubmit } />;
+  return <BlogForm formSubmit={onFormSubmit} />;
 };
 
 export default CreateBlog;

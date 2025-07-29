@@ -1,5 +1,7 @@
+import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { themeAtom } from "../App";
 
 interface BlogData {
   title: string;
@@ -16,6 +18,7 @@ interface Props {
 
 const BlogForm = ({ edit, formSubmit }: Props) => {
   const [submited, setSubmited] = useState(false);
+  const [theme] = useAtom(themeAtom);
   const {
     register,
     handleSubmit,
@@ -50,7 +53,10 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
       )}
       {!submited && (
         <div className="d-flex justify-content-center form-card">
-          <form className="card" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className={`card page-${theme}`}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="card-body d-flex flex-column">
               <div className="mb-3">
                 <label htmlFor="author" className="form-label">
@@ -60,7 +66,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   {...register("author", { required: true })}
                   id="author"
                   type="text"
-                  className="form-control"
+                  className={`form-control page-${theme}`}
                   placeholder="John Smith"
                   defaultValue={edit ? edit.author : ""}
                 />
@@ -76,7 +82,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   {...register("title", { required: true })}
                   id="title"
                   type="text"
-                  className="form-control"
+                  className={`form-control page-${theme}`}
                   defaultValue={edit ? edit.title : ""}
                 />
                 {errors.description?.type === "required" && (
@@ -91,7 +97,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   {...register("description", { required: true })}
                   id="description"
                   type="text"
-                  className="form-control"
+                  className={`form-control page-${theme}`}
                   defaultValue={edit ? edit.description : ""}
                 />
                 {errors.description?.type === "required" && (
@@ -106,7 +112,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   {...register("tags")}
                   id="tags"
                   type="text"
-                  className="form-control"
+                  className={`form-control page-${theme}`}
                   placeholder="Example: react dev design"
                   defaultValue={edit ? edit.tags : ""}
                 />
@@ -118,7 +124,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                 <textarea
                   {...register("content", { required: true })}
                   id="content"
-                  className="form-control"
+                  className={`form-control page-${theme}`}
                   defaultValue={edit ? edit.content : ""}
                 />
                 {errors.description?.type === "required" && (
