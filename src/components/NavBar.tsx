@@ -23,11 +23,11 @@ const NavBar = () => {
           Home
         </Link>
         <Link className="nav-link" to="/bookmarks">
-          Bookmarks
+          Saved
         </Link>
 
         <Link to="/createblog">
-          <button className="btn btn-native">Create New Blog</button>
+          <button className="btn btn-dark px-3">Post a Blog</button>
         </Link>
         {theme === "light" ? (
           <IoMoonSharp

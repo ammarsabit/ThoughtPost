@@ -7,6 +7,15 @@
   opacity: 0.8;
 }
 
+.hero {
+  background: url(../src/assets/hero.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  height: 90vh;
+  border-radius: 25px;
+  color: black;
+}
+
 form {
   width: 40vw;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
@@ -48,9 +57,6 @@ a:hover {
   cursor: pointer;
 }
 
-.blog-card.page-dark {
-  border: 1px solid grey !important;
-}
 
 .page-light {
   background-color: #ffffff;
@@ -67,6 +73,9 @@ a:hover {
   color: #fff;
 }
 
+.blog-card.page-dark {
+  border: 1px solid rgba(255, 255, 255, 0.175);
+}
 
 .blog-card.page-light:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);

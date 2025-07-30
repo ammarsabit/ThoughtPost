@@ -10,7 +10,6 @@ import EditBlog from "./pages/EditBlog";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import Confirmation from "./components/Confirmation";
-import Footer from "./components/Footer";
 
 export const themeAtom = atom("dark");
 export const confirmAtom = atom("");
@@ -70,7 +69,7 @@ function App() {
   }, []);
 
   const handleAddBlog = (data: CreateInput) => {
-    console.log(data)
+    console.log(data);
     const origionalBlog = [...blogs];
     const newBlog = {
       title: data.title,
@@ -78,7 +77,7 @@ function App() {
       description: data.description,
       content: data.content,
       tags: data.tags,
-      blogPhoto: data.blogPhoto
+      blogPhoto: data.blogPhoto,
     };
     apiClient
       .post("/blogs", newBlog)
@@ -159,10 +158,10 @@ function App() {
     setConfirming(false);
   }, [selection]);
 
-  const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
-  const blogsWithoutDescription = blogs.map(({ description, ...blog }) => blog);
   return (
-    <div className={`app-container position-relative pb-4 px-5 page-${theme}`}>
+    <div
+      className={`app-container position-relative pb-4 pt-1 px-4 page-${theme}`}
+    >
       {isConfirming && <Confirmation />}
       <NavBar />
       <Routes>
@@ -170,11 +169,10 @@ function App() {
           path="/"
           element={
             <Home
-              blogs={blogsWithoutContent}
+              blogs={blogs}
               loading={isLoading}
               errorMessage={error}
               onBookMark={handleBookMark}
-              onDelete={handleDelete}
             />
           }
         />
@@ -186,9 +184,8 @@ function App() {
           path="/bookmarks"
           element={
             <BookMarks
-              blogs={blogsWithoutContent}
+              blogs={blogs}
               onBookMark={handleBookMark}
-              onDelete={handleDelete}
             />
           }
         />
@@ -200,14 +197,13 @@ function App() {
           path="/blogDetail/:blogId"
           element={
             <BlogDetails
-              blogs={blogsWithoutDescription}
+              blogs={blogs}
               onBookMark={handleBookMark}
               onDelete={handleDelete}
             />
           }
         />
       </Routes>
-      <Footer/>
     </div>
   );
 }

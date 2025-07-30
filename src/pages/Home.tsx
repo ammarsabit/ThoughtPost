@@ -1,5 +1,10 @@
 import BlogCard from "../components/BlogCard.tsx";
 import BeatLoader from "react-spinners/BeatLoader";
+import Hero from "../components/Hero.tsx";
+import Footer from "../components/Footer.tsx";
+import { useAtom } from "jotai";
+import { themeAtom } from "../App.tsx";
+import { useState } from "react";
 
 interface Blog {
   id: string;
@@ -7,6 +12,7 @@ interface Blog {
   title: string;
   author: string;
   description: string;
+  blogPhoto: string;
   tags: string;
   createdAt: string;
   editedAt?: string;
@@ -18,38 +24,38 @@ interface Props {
   loading: boolean;
   errorMessage: string;
   onBookMark: (id: string, statues: boolean) => void;
-  onDelete: (id: string) => void;
 }
 
-const Home = ({
-  blogs,
-  loading,
-  errorMessage,
-  onBookMark,
-  onDelete
-}: Props) => {
+const Home = ({ blogs, loading, errorMessage, onBookMark }: Props) => {
+  const [isExpanded, setExpanded] = useState(false);
+  const [theme] = useAtom(themeAtom);
+
+  const blgs = isExpanded ? blogs : blogs.slice(0, 5);
   return (
-    <>
-      <div className=" gradient-text">
-        <h1 className="text-center mb-3 fs-1 fw-bold">Blogs</h1>
+    <div>
+      <Hero />
+      <div>
+          <h1 className="mb-3 mt-5 fs-3 fw-bold">Recent Blog Posts</h1>
+        <div className="d-flex justify-content-center">
+          {errorMessage && <p className="text-danger">{errorMessage}</p>}
+          {!errorMessage && loading && <BeatLoader size={30} color="#8e2de2" />}
+        </div>
+        {blogs.length === 0 && !loading && !errorMessage ? (
+          <p className="text-danger">NO BLOGS YET!</p>
+        ) : (
+          blgs.map((blog) => (
+            <div className={`card blog-card page-${theme} mb-3`}>
+                <BlogCard key={blog.id} blog={blog} onBookMark={onBookMark} />
+                <p className="ms-3 mb-3">{blog.description}</p>
+            </div>
+          ))
+        )}
+        <div className="d-flex justify-content-center my-5">
+          <button className="btn btn-large btn-dark px-5" onClick={() => setExpanded(!isExpanded)}>Show {isExpanded ? "less" : "more"}</button>
+        </div>
       </div>
-      <div className="d-flex justify-content-center">
-        {errorMessage && <p className="text-danger">{errorMessage}</p>}
-        {!errorMessage && loading && <BeatLoader size={30} color="#8e2de2" />}
-      </div>
-      {blogs.length === 0 && !loading && !errorMessage ? (
-        <p className="text-danger">NO BLOGS YET!</p>
-      ) : (
-        blogs.map((blog) => (
-          <BlogCard
-            key={blog.id}
-            blog={blog}
-            onBookMark={onBookMark}
-            onDelete={onDelete}
-          />
-        ))
-      )}
-    </>
+      <Footer />
+    </div>
   );
 };
 
