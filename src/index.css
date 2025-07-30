@@ -21,16 +21,18 @@ form {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
-a.page-light {
-  color: #222 !important;
-}
-
-a.page-dark {
-  color: #eee !important;
-}
-
 a:hover {
   color: #8e2de2 !important;
+}
+
+.nav-link.active {
+  background-color: rgb(33, 37, 41);
+  border-radius: 5px;
+  color: #fff !important;
+  padding: 0.3rem 1rem;
+}
+.nav-link.active:hover {
+  opacity: 0.8;
 }
 
 .gradient-text {
@@ -56,7 +58,6 @@ a:hover {
 .cursor-pointer {
   cursor: pointer;
 }
-
 
 .page-light {
   background-color: #ffffff;

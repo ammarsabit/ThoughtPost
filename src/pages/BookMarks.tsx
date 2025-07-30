@@ -14,10 +14,9 @@ interface Blog {
 interface Props {
   blogs: Blog[];
   onBookMark: (id: string, statues: boolean) => void;
-  onDelete: (id: string) => void;
 }
 
-const BookMarks = ({ blogs, onBookMark, onDelete }: Props) => {
+const BookMarks = ({ blogs, onBookMark}: Props) => {
   return (
     <>
       <div className=" gradient-text">
@@ -30,7 +29,6 @@ const BookMarks = ({ blogs, onBookMark, onDelete }: Props) => {
             key={blog.id}
             blog={blog}
             onBookMark={onBookMark}
-            onDelete={onDelete}
           />
         ))}
     </>
