@@ -145,16 +145,11 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   Blog Photo
                 </label>
                 <input
-                  {...register("blogPhoto", { required: true })}
                   id="blogPhoto"
                   type="file"
                   className={`form-control page-${theme}`}
-                  defaultValue={edit ? edit.description : ""}
                   onChange={handleImageUpload}
                 />
-                {errors.description?.type === "required" && (
-                  <p className="text-danger">Description is required</p>
-                )}
               </div>
               <div className="mb-3">
                 <label htmlFor="tags" className="form-label">

@@ -26,7 +26,7 @@ const BlogCard = ({ blog, onBookMark }: Props) => {
   const [theme] = useAtom(themeAtom);
 
   return (
-    <div className={`page-${theme}`}>
+    <div className={`page-${theme} position-relative`}>
       <div className="d-flex flex-column ms-3 mt-3">
         <div className="d-flex">
           <img
