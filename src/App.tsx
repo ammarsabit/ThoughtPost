@@ -10,6 +10,7 @@ import EditBlog from "./pages/EditBlog";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import Confirmation from "./components/Confirmation";
+import Footer from "./components/Footer";
 
 export const themeAtom = atom("dark");
 export const confirmAtom = atom("");
@@ -21,6 +22,7 @@ interface Blog {
   title: string;
   author: string;
   description: string;
+  blogPhoto: string;
   content: string;
   tags: string;
   createdAt: string;
@@ -34,6 +36,7 @@ interface CreateInput {
   description: string;
   content: string;
   tags: string;
+  blogPhoto: string;
 }
 
 interface EditInput extends CreateInput {
@@ -67,6 +70,7 @@ function App() {
   }, []);
 
   const handleAddBlog = (data: CreateInput) => {
+    console.log(data)
     const origionalBlog = [...blogs];
     const newBlog = {
       title: data.title,
@@ -74,6 +78,7 @@ function App() {
       description: data.description,
       content: data.content,
       tags: data.tags,
+      blogPhoto: data.blogPhoto
     };
     apiClient
       .post("/blogs", newBlog)
@@ -149,9 +154,8 @@ function App() {
         .catch((error) => setError(error.message));
     }
 
-    
     setSelection("");
-    setBlogIdToDelete("")
+    setBlogIdToDelete("");
     setConfirming(false);
   }, [selection]);
 
@@ -203,6 +207,7 @@ function App() {
           }
         />
       </Routes>
+      <Footer/>
     </div>
   );
 }

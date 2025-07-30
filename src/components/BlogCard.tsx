@@ -13,6 +13,7 @@ interface Post {
   author: string;
   title: string;
   description?: string;
+  blogPhoto: string;
   content?: string;
   tags: string;
   createdAt: string;
@@ -79,6 +80,7 @@ const BlogCard = ({ blog, onBookMark, onDelete }: Props) => {
             </li>
           ))}
         </ul>
+        
         {blog.content && <p className="fs-5 blog-content">{blog.content}</p>}
         {blog.editedAt && (
           <h3 className="fs-6 mt-4 text-secondary">
@@ -104,6 +106,10 @@ const BlogCard = ({ blog, onBookMark, onDelete }: Props) => {
               onClick={() => onDelete(blog.id)}
             />
           </div>
+        </div>
+
+        <div >
+          <img src={blog.blogPhoto} className="image-flluid rounded mx-auto d-block"></img>
         </div>
       </div>
     </div>

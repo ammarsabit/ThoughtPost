@@ -1,13 +1,15 @@
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { themeAtom } from "../App";
+import axios from "axios";
 
 interface BlogData {
   title: string;
   author: string;
   description: string;
   content: string;
+  blogPhoto: string;
   tags: string;
   editedAt?: string;
 }
@@ -19,7 +21,32 @@ interface Props {
 
 const BlogForm = ({ edit, formSubmit }: Props) => {
   const [submited, setSubmited] = useState(false);
+  const [image, setImage] = useState<FormData | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [error, setError] = useState("");
   const [theme] = useAtom(themeAtom);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const imageData = new FormData();
+    imageData.append("image", file);
+    setImage(imageData);
+  };
+
+  useEffect(() => {
+    if (!image) return;
+    axios
+      .post(
+        `https://api.imgbb.com/1/upload?key=82bca9b4b1e6512f2421267af231717d`,
+        image
+      )
+      .then((response) => {
+        setImageUrl(response.data.data.url);
+      })
+      .catch((error) => setError(error.message));
+  }, [image]);
+
   const {
     register,
     handleSubmit,
@@ -27,9 +54,15 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
   } = useForm<BlogData>();
 
   const onSubmit = (data: BlogData) => {
-    formSubmit(data);
+    if (image && !imageUrl) {
+      setError("Image is still uploading. Please wait.");
+      return;
+    }
+
+    formSubmit({ ...data, blogPhoto: imageUrl });
     setSubmited(true);
   };
+
   return (
     <>
       <div className=" gradient-text">
@@ -44,6 +77,8 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
           </h1>
         )}
       </div>
+      {error && <p className="text-danger">Image upload failed {error}</p>}
+      {image && !imageUrl && <p className="text-danger">Uploading image</p>}
       {submited && (
         <div>
           <p className="text-center text-success">
@@ -106,6 +141,22 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                 )}
               </div>
               <div className="mb-3">
+                <label htmlFor="blogPhoto" className="form-label">
+                  Blog Photo
+                </label>
+                <input
+                  {...register("blogPhoto", { required: true })}
+                  id="blogPhoto"
+                  type="file"
+                  className={`form-control page-${theme}`}
+                  defaultValue={edit ? edit.description : ""}
+                  onChange={handleImageUpload}
+                />
+                {errors.description?.type === "required" && (
+                  <p className="text-danger">Description is required</p>
+                )}
+              </div>
+              <div className="mb-3">
                 <label htmlFor="tags" className="form-label">
                   Tags (space separated)
                 </label>
@@ -132,7 +183,12 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   <p className="text-danger">Content is required</p>
                 )}
               </div>
-              <button className="btn btn-lg btn-native align-self-end">{edit ? "Save" : "Post"}</button>
+              <button
+                className="btn btn-lg btn-native align-self-end"
+                disabled={!imageUrl}
+              >
+                {edit ? "Save" : "Post"}
+              </button>
             </div>
           </form>
         </div>

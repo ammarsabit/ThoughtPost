@@ -6,6 +6,7 @@ interface Blog {
   description: string;
   content: string;
   tags: string;
+  blogPhoto: string; 
 }
 
 interface FormInput {
@@ -36,12 +37,13 @@ const EditBlog = ({ blogs, onUpdate }: Props) => {
 
   if (!blogWithId) return <p className="text-danger">Blog not Found</p>;
 
-  const toBeEdited = {
+  const toEdit = {
     title: blogWithId.title,
     author: blogWithId.author,
     description: blogWithId.description,
     content: blogWithId.content,
     tags: blogWithId.tags,
+    blogPhoto: blogWithId.blogPhoto
   };
 
   const handleSubmit = (data: FormInput) => {
@@ -52,7 +54,7 @@ const EditBlog = ({ blogs, onUpdate }: Props) => {
 
   return (
     <div>
-      <BlogForm edit={toBeEdited} formSubmit={handleSubmit} />
+      <BlogForm edit={toEdit} formSubmit={handleSubmit} />
     </div>
   );
 };
