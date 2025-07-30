@@ -109,7 +109,7 @@ const BlogCard = ({ blog, onBookMark, onDelete }: Props) => {
         </div>
 
         <div >
-          <img src={blog.blogPhoto} className="image-flluid rounded mx-auto d-block"></img>
+          <img src={blog.blogPhoto} className="image-fluid rounded mx-auto d-block h-20"></img>
         </div>
       </div>
     </div>

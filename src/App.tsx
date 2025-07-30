@@ -162,7 +162,7 @@ function App() {
   const blogsWithoutContent = blogs.map(({ content, ...blog }) => blog);
   const blogsWithoutDescription = blogs.map(({ description, ...blog }) => blog);
   return (
-    <div className={`app-container p-3 page-${theme}`}>
+    <div className={`app-container position-relative pb-4 px-5 page-${theme}`}>
       {isConfirming && <Confirmation />}
       <NavBar />
       <Routes>
