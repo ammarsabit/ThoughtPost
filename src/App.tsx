@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import Confirmation from "./components/Confirmation";
 
-export const themeAtom = atom("dark");
+export const themeAtom = atom("light");
 export const confirmAtom = atom("");
 export const deleteTitleAtom = atom("");
 
