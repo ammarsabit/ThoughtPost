@@ -1,15 +1,16 @@
 import { atom, useAtom } from "jotai";
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "./App.css";
+import About from "./pages/About";
 import apiClient from "./services/api-client";
 import BlogDetails from "./pages/BlogDetails";
 import BookMarks from "./pages/BookMarks";
+import Confirmation from "./components/Confirmation";
 import CreateBlog from "./pages/CreateBlog";
 import EditBlog from "./pages/EditBlog";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
-import Confirmation from "./components/Confirmation";
+import "./App.css";
 
 export const themeAtom = atom("light");
 export const confirmAtom = atom("");
@@ -180,14 +181,10 @@ function App() {
           path="/createBlog"
           element={<CreateBlog onFormSubmit={handleAddBlog} />}
         />
+        <Route path="/about" element={<About />} />
         <Route
           path="/bookmarks"
-          element={
-            <BookMarks
-              blogs={blogs}
-              onBookMark={handleBookMark}
-            />
-          }
+          element={<BookMarks blogs={blogs} onBookMark={handleBookMark} />}
         />
         <Route
           path="/editBlog/:blogId"

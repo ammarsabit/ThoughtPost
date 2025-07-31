@@ -9,7 +9,6 @@ interface Blog {
   title: string;
   tags: string;
   createdAt: string;
-  editedAt?: string;
 }
 
 interface Props {
@@ -53,16 +52,6 @@ const BlogCard = ({ blog }: Props) => {
             </li>
           ))}
         </ul>
-
-        {blog.editedAt && (
-          <h3 className="fs-6 mt-4 text-secondary">
-            edited {"  "}
-            {new Date(blog.editedAt).toLocaleString("en-us", {
-              dateStyle: "medium",
-              timeStyle: "short",
-            })}
-          </h3>
-        )}
       </div>
     </div>
   );

@@ -32,10 +32,10 @@ const Home = ({ blogs, loading, errorMessage, onBookMark }: Props) => {
 
   const blgs = isExpanded ? blogs : blogs.slice(0, 5);
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       <Hero />
       <div>
-          <h1 className="mb-3 mt-5 fs-3 fw-bold">Recent Blog Posts</h1>
+        <h1 className="mb-3 mt-5 fs-3 fw-bold">Recent Blog Posts</h1>
         <div className="d-flex justify-content-center">
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
           {!errorMessage && loading && <BeatLoader size={30} color="#8e2de2" />}
@@ -45,14 +45,21 @@ const Home = ({ blogs, loading, errorMessage, onBookMark }: Props) => {
         ) : (
           blgs.map((blog) => (
             <div className={`card blog-card page-${theme} mb-3`}>
-                <BlogCard key={blog.id} blog={blog} onBookMark={onBookMark} />
-                <p className="ms-3 mb-3">{blog.description}</p>
+              <BlogCard key={blog.id} blog={blog} onBookMark={onBookMark} />
+              <p className="ms-3 mb-3">{blog.description}</p>
             </div>
           ))
         )}
-        <div className="d-flex justify-content-center my-5">
-          <button className="btn btn-large btn-dark px-5" onClick={() => setExpanded(!isExpanded)}>Show {isExpanded ? "less" : "more"}</button>
-        </div>
+        {blogs.length >= 5 && (
+          <div className="d-flex justify-content-center my-5">
+            <button
+              className="btn btn-large btn-dark px-5"
+              onClick={() => setExpanded(!isExpanded)}
+            >
+              Show {isExpanded ? "less" : "more"}
+            </button>
+          </div>
+        )}
       </div>
       <Footer />
     </div>

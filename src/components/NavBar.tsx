@@ -19,7 +19,7 @@ const NavBar = () => {
           )}
         </Link>
 
-        <ul className="d-flex">
+        <ul className="d-flex" style={{fontFamily: "K2D, sans-serif", fontWeight: "600"}}>
           <li className="align-self-center list-unstyled mx-4 ">
             <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="/">
               Home
@@ -43,7 +43,7 @@ const NavBar = () => {
           </Link>
           {theme === "light" ? (
             <BsMoonStarsFill
-              size={40}
+              size={30}
               color="black"
               onClick={() => setTheme("dark")}
               className="cursor-pointer mx-3"
