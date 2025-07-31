@@ -1,6 +1,7 @@
 import { Link } from "react-router";
-import BlogCard from "../components/BlogCard";
+import BlogCard from "../components/UserCard";
 import BookmarkIcon from "../components/BookmarkIcon";
+import BlogTags from "../components/BlogTags";
 
 interface Blog {
   id: string;
@@ -21,15 +22,20 @@ interface Props {
 
 const BookMarks = ({ blogs, onBookMark }: Props) => {
   return (
-    <div
-      style={{ maxWidth: "900px" }}
-      className="mx-auto pt-5"
-    >
+    <div style={{ maxWidth: "900px" }} className="mx-auto pt-5">
       {blogs
         .filter((blog) => blog.bookmarked)
         .map((blog) => (
           <div key={blog.id} className="mb-5 position-relative">
-            <BlogCard blog={blog} />
+            <div className="mb-4">
+              <BlogCard
+                author={blog.author}
+                avatar={blog.avatar}
+                createdAt={blog.createdAt}
+              />
+              <h1 className="fw-bolder lh-sm mt-3">{blog.title}</h1>
+              <BlogTags tags={blog.tags} />
+            </div>
             <img
               src={blog.blogPhoto}
               alt={blog.title}

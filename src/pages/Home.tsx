@@ -1,4 +1,4 @@
-import BlogCard from "../components/BlogCard.tsx";
+import BlogCard from "../components/UserCard.tsx";
 import BeatLoader from "react-spinners/BeatLoader";
 import Hero from "../components/Hero.tsx";
 import Footer from "../components/Footer.tsx";

@@ -1,8 +1,9 @@
 import { Link, useParams } from "react-router-dom";
-import BlogCard from "../components/BlogCard";
 import { BiPencil } from "react-icons/bi";
 import { FaTrashAlt } from "react-icons/fa";
 import BookmarkIcon from "../components/BookmarkIcon";
+import BlogCard from "../components/UserCard";
+import BlogTags from "../components/BlogTags";
 
 interface Blog {
   id: string;
@@ -35,7 +36,13 @@ const BlogDetails = ({ blogs, onBookMark, onDelete }: Props) => {
       className=" mx-auto mt-5 position-relative blog-detail"
     >
       <div className="user-card">
-        <BlogCard blog={blog} />
+        <BlogCard
+          author={blog.author}
+          avatar={blog.avatar}
+          createdAt={blog.createdAt}
+        />
+        <h1 className="fw-bolder lh-sm">{blog.title}</h1>
+        <BlogTags tags={blog.tags} />
       </div>
 
       <div className="d-flex position-absolute top-0 end-0">
