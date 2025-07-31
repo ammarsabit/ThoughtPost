@@ -1,6 +1,3 @@
-import { FaRegBookmark } from "react-icons/fa6";
-import { FaBookmark } from "react-icons/fa";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
 import { themeAtom } from "../App";
@@ -13,16 +10,13 @@ interface Blog {
   tags: string;
   createdAt: string;
   editedAt?: string;
-  bookmarked: boolean;
 }
 
 interface Props {
   blog: Blog;
-  onBookMark: (id: string, statues: boolean) => void;
 }
 
-const BlogCard = ({ blog, onBookMark }: Props) => {
-  const [bookMarked, setBookMarked] = useState(false);
+const BlogCard = ({ blog }: Props) => {
   const [theme] = useAtom(themeAtom);
 
   return (
@@ -68,19 +62,6 @@ const BlogCard = ({ blog, onBookMark }: Props) => {
               timeStyle: "short",
             })}
           </h3>
-        )}
-      </div>
-      <div
-        className="position-absolute top-0 end-0 p-0"
-        onClick={() => {
-          setBookMarked(!bookMarked);
-          onBookMark(blog.id, bookMarked);
-        }}
-      >
-        {blog.bookmarked ? (
-          <FaBookmark size={30} />
-        ) : (
-          <FaRegBookmark size={30} />
         )}
       </div>
     </div>
