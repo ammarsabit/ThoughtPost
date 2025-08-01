@@ -6,7 +6,7 @@ interface Blog {
   description: string;
   content: string;
   tags: string;
-  blogPhoto: string;
+  blogPhoto: {};
 }
 
 interface FormInput {
@@ -49,6 +49,7 @@ const EditBlog = ({ blogs, onUpdate }: Props) => {
   const handleSubmit = (data: FormInput) => {
     if (!blogWithId) return;
     onUpdate({ ...data, id: blogId } as Blog);
+    console.log(data);
   };
 
   return (

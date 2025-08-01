@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { confirmAtom, deleteTitleAtom, themeAtom } from "../App";
 
-const Confirmation = () => {
+const ConfirmDelete = () => {
   const [theme] = useAtom(themeAtom);
   const [, setSelection] = useAtom(confirmAtom);
   const [deleteTitle] = useAtom(deleteTitleAtom);
@@ -39,4 +39,4 @@ const Confirmation = () => {
   );
 };
 
-export default Confirmation;
+export default ConfirmDelete;

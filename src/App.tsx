@@ -5,12 +5,12 @@ import About from "./pages/About";
 import apiClient from "./services/api-client";
 import BlogDetails from "./pages/BlogDetails";
 import BookMarks from "./pages/BookMarks";
-import Confirmation from "./components/Confirmation";
-import CreateBlog from "./pages/CreateBlog";
-import EditBlog from "./pages/EditBlog";
+import ConfirmDelete from "./components/ConfirmDelete";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import "./App.css";
+import axios from "axios";
+import BlogForm, { formActionAtom } from "./components/BlogForm";
 
 export const themeAtom = atom("light");
 export const confirmAtom = atom("");
@@ -21,6 +21,7 @@ interface Blog {
   avatar: string;
   title: string;
   author: string;
+  occupation: string;
   description: string;
   blogPhoto: string;
   content: string;
@@ -30,17 +31,15 @@ interface Blog {
   bookmarked: boolean;
 }
 
-interface CreateInput {
+interface FormData {
+  blogId: string;
   title: string;
   author: string;
+  Occupation: string;
   description: string;
   content: string;
+  PhotoData: FileList;
   tags: string;
-  blogPhoto: string;
-}
-
-interface EditInput extends CreateInput {
-  id: string;
 }
 
 function App() {
@@ -49,6 +48,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   const [theme] = useAtom(themeAtom);
+  const [formAction, setFormAction] = useAtom(formActionAtom);
 
   // Delete post
   const [selection, setSelection] = useAtom(confirmAtom);
@@ -69,27 +69,6 @@ function App() {
       });
   }, []);
 
-  const handleAddBlog = (data: CreateInput) => {
-    console.log(data);
-    const origionalBlog = [...blogs];
-    const newBlog = {
-      title: data.title,
-      author: data.author,
-      description: data.description,
-      content: data.content,
-      tags: data.tags,
-      blogPhoto: data.blogPhoto,
-    };
-    apiClient
-      .post("/blogs", newBlog)
-      .then((response) => {
-        setBlogs([...blogs, response.data]);
-      })
-      .catch((error) => {
-        setError(error.message), setBlogs(origionalBlog);
-      });
-  };
-
   const handleBookMark = (id: string, status: boolean) => {
     const origionalBlogs = [...blogs];
     const blogToUpDate = blogs.find((blog) => blog.id === id);
@@ -105,32 +84,79 @@ function App() {
     });
   };
 
-  const handleBlogEdit = (data: EditInput) => {
-    const blogToEdit = blogs.find((blog) => blog.id === data.id);
-    const now = Date();
-    if (!blogToEdit) return;
-    const updatedBlog = {
-      ...blogToEdit,
-      title: data.title,
-      author: data.author,
-      description: data.description,
-      content: data.content,
-      tags: data.tags,
-      editedAt: now,
-    };
+  const handleAddBlog = (data: FormData) => {
+    const origionalBlog = [...blogs];
+    const imageFile = data.PhotoData?.[0];
+    const imageData = new FormData();
+    imageData.append("image", imageFile);
 
-    apiClient
-      .put("/blogs/" + data.id, updatedBlog)
+    axios
+      .post(
+        `https://api.imgbb.com/1/upload?key=82bca9b4b1e6512f2421267af231717d`,
+        imageData
+      )
       .then((response) => {
-        setBlogs(
-          blogs.map((blog) => (blog.id === data.id ? response.data : blog))
-        );
+        const newBlog = {
+          title: data.title,
+          author: data.author,
+          description: data.description,
+          content: data.content,
+          tags: data.tags,
+          blogPhoto: response.data.data.url,
+        };
+        apiClient
+          .post("/blogs", newBlog)
+          .then((response) => {
+            setBlogs([...blogs, response.data]);
+          })
+          .catch((error) => {
+            setError(error.message), setBlogs(origionalBlog);
+          });
       })
-      .catch((error) => {
-        setError(error);
-      });
+      .catch((error) => setError(error.message));
+  };
 
+  const handleBlogEdit = (data: FormData) => {
+    const blogToEdit = blogs.find((blog) => blog.id === data.blogId);
     if (!blogToEdit) return;
+
+    const now = Date();
+    const imageFile = data.PhotoData?.[0];
+    const imageData = new FormData();
+    imageData.append("image", imageFile);
+
+    axios
+      .post(
+        `https://api.imgbb.com/1/upload?key=82bca9b4b1e6512f2421267af231717d`,
+        imageData
+      )
+      .then((response) => {
+        const updatedBlog = {
+          ...blogToEdit,
+          title: data.title,
+          author: data.author,
+          occupation: data.Occupation,
+          description: data.description,
+          content: data.content,
+          tags: data.tags,
+          blogPhoto: response.data.data.url,
+          editedAt: now,
+        };
+
+        apiClient
+          .put("/blogs/" + data.blogId, updatedBlog)
+          .then((response) => {
+            setBlogs(
+              blogs.map((blog) =>
+                blog.id === data.blogId ? response.data : blog
+              )
+            );
+          })
+          .catch((error) => {
+            setError(error);
+          });
+      })
+      .catch((error) => setError(error.message));
   };
 
   const handleDelete = (id: string) => {
@@ -163,7 +189,8 @@ function App() {
     <div
       className={`app-container position-relative pb-4 pt-2 px-4 page-${theme}`}
     >
-      {isConfirming && <Confirmation />}
+      {isConfirming && <ConfirmDelete />}
+      {formAction && <BlogForm formSubmit={handleAddBlog} />}
       <NavBar />
       <Routes>
         <Route
@@ -172,26 +199,20 @@ function App() {
             <Home blogs={blogs} loading={isLoading} errorMessage={error} />
           }
         />
-        <Route
-          path="/createBlog"
-          element={<CreateBlog onFormSubmit={handleAddBlog} />}
-        />
         <Route path="/about" element={<About />} />
         <Route
           path="/bookmarks"
           element={<BookMarks blogs={blogs} onBookMark={handleBookMark} />}
         />
         <Route
-          path="/editBlog/:blogId"
-          element={<EditBlog blogs={blogs} onUpdate={handleBlogEdit} />}
-        />
-        <Route
           path="/blogDetail/:blogId"
           element={
             <BlogDetails
               blogs={blogs}
+              errorMessage={error}
               onBookMark={handleBookMark}
               onDelete={handleDelete}
+              onUpdate={handleBlogEdit}
             />
           }
         />

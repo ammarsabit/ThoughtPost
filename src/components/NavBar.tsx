@@ -5,9 +5,11 @@ import { IoIosSunny } from "react-icons/io";
 import { BsMoonStarsFill } from "react-icons/bs";
 import logo_dark from "../assets/ThoughtPost_Logo_Dark.png";
 import logo_light from "../assets/ThoughtPost_Logo_Light.png";
+import { formActionAtom } from "./BlogForm";
 
 const NavBar = () => {
   const [theme, setTheme] = useAtom(themeAtom);
+  const [, setFormAction] = useAtom(formActionAtom);
   return (
     <div className={`navbar`}>
       <div className="d-flex container-fluid">
@@ -19,28 +21,49 @@ const NavBar = () => {
           )}
         </Link>
 
-        <ul className="d-flex" style={{fontFamily: "K2D, sans-serif", fontWeight: "600"}}>
+        <ul
+          className="d-flex"
+          style={{ fontFamily: "K2D, sans-serif", fontWeight: "600" }}
+        >
           <li className="align-self-center list-unstyled mx-4 ">
-            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="/">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+              to="/"
+            >
               Home
             </NavLink>
           </li>
           <li className="align-self-center list-unstyled mx-4">
-            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="/about">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+              to="/about"
+            >
               About
             </NavLink>
           </li>
           <li className="align-self-center list-unstyled mx-4">
-            <NavLink className={({isActive}) => isActive ? 'nav-link active' : 'nav-link'} to="/bookmarks">
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+              to="/bookmarks"
+            >
               Saved
             </NavLink>
           </li>
         </ul>
 
         <div>
-          <Link to="/createblog">
-            <button className="btn btn-dark px-3">Post a Blog</button>
-          </Link>
+          <button
+            className="btn btn-dark px-3"
+            onClick={() => setFormAction(true)}
+          >
+            Post a Blog
+          </button>
           {theme === "light" ? (
             <BsMoonStarsFill
               size={30}

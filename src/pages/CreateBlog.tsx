@@ -6,7 +6,7 @@ interface BlogInput {
   description: string;
   content: string;
   tags: string;
-  blogPhoto: string;
+  blogPhoto: {};
 }
 
 interface Props {
