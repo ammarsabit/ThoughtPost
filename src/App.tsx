@@ -173,7 +173,6 @@ function App() {
               blogs={blogs}
               loading={isLoading}
               errorMessage={error}
-              onBookMark={handleBookMark}
             />
           }
         />

@@ -68,19 +68,37 @@ form {
   flex-direction: column;
 }
 
+.grid-container {
+  display: grid;
+  gap: 5rem;
+}
 
-@media screen and (min-width: 700px) {
-  form {
-    width: 90vw;
+@media screen and (min-width: 576px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .blog-detail .user-card {
+    max-width: 60%;
+    padding-left: 5rem;
   }
 
   .footer-items {
     flex-direction: row;
   }
 
-  .blog-detail .user-card {
-    max-width: 60%;
-    padding-left: 5rem;
-    
+  .blogs-container {
+    padding: 5rem;
   }
+}
+
+@media screen and (min-width: 992px) {
+  form {
+    width: 90vw;
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
 }

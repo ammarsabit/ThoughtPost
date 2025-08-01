@@ -4,7 +4,7 @@ interface Props {
   createdAt: string;
 }
 
-const BlogCard = ({ author, avatar, createdAt }: Props) => {
+const UserCard = ({ author, avatar, createdAt }: Props) => {
   return (
     <div className="d-flex">
       <img
@@ -25,4 +25,4 @@ const BlogCard = ({ author, avatar, createdAt }: Props) => {
   );
 };
 
-export default BlogCard;
+export default UserCard;
