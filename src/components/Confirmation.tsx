@@ -2,8 +2,6 @@ import { useAtom } from "jotai";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { confirmAtom, deleteTitleAtom, themeAtom } from "../App";
 
-
-
 const Confirmation = () => {
   const [theme] = useAtom(themeAtom);
   const [, setSelection] = useAtom(confirmAtom);
@@ -25,11 +23,14 @@ const Confirmation = () => {
         <div className="align-self-end">
           <button
             className="btn btn-outline-success mx-2"
-            onClick={() => setSelection('cancel')}
+            onClick={() => setSelection("cancel")}
           >
             Cancel
           </button>
-          <button className="btn btn-danger" onClick={() => setSelection('delete')}>
+          <button
+            className="btn btn-danger"
+            onClick={() => setSelection("delete")}
+          >
             Delete
           </button>
         </div>

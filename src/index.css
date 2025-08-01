@@ -9,10 +9,6 @@
   color: black;
 }
 
-form {
-  width: 40vw;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-}
 
 /* a:hover {
   color: #8e2de2 !important;
@@ -73,6 +69,12 @@ form {
   gap: 5rem;
 }
 
+
+.card-form {
+  max-width: 800px ;
+  width: 100%;
+}
+
 @media screen and (min-width: 576px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
@@ -93,9 +95,6 @@ form {
 }
 
 @media screen and (min-width: 992px) {
-  form {
-    width: 90vw;
-  }
 
   .grid-container {
     grid-template-columns: repeat(3, 1fr);
