@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { themeAtom } from "../App";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface BlogData {
   title: string;
@@ -97,6 +98,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   🎉 The post is successfully made get back to the home page to
                   see your blog
                 </p>
+                <Link to="/">Home</Link>
               </div>
             )}
           </span>

@@ -35,12 +35,13 @@ const Home = ({ blogs, loading, errorMessage }: Props) => {
     <div style={{ minHeight: "100vh" }}>
       <Hero />
       <div>
-        <div className="d-flex justify-content-center">
+        
+        <div className="blogs-container">
+          <h1 className="mb-4 mt-5 fs-3 fw-bold">Recent Blog Posts</h1>
+          <div className="d-flex justify-content-center">
           {errorMessage && <p className="text-danger">{errorMessage}</p>}
           {!errorMessage && loading && <BeatLoader size={30} />}
         </div>
-        <div className="blogs-container">
-          <h1 className="mb-4 mt-5 fs-3 fw-bold">Recent Blog Posts</h1>
           <div className="grid-container">
             {blogs.length === 0 && !loading && !errorMessage ? (
               <p className="text-danger">NO BLOGS YET!</p>

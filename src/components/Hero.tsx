@@ -1,21 +1,49 @@
+import heroImage from "../assets/hero.png";
+
 const Hero = () => {
   return (
-    <div className="position-relative hero">
-      <div className="position-absolute">
-          <h2>Featured</h2>
-          <h1>
-            Breaking into Product Design:
-            <br />
-            Advice from Untitled Founder, Frankie
-          </h1>
-          <p>
-            Let’s get one thing out of the way: you don’t need a fancy Bachelor’s<br/>
-            Degree to get into Product Design. We sat down with Frankie Sallivan to<br/>
-            talk about gatekeeping in product design and who anyone can get into
-            this growing industry.
-          </p>
+    <section
+      className="position-relative hero"
+      style={{ backgroundImage: `url(${heroImage})` }}
+    >
+      <div className="hero-content">
+        <h2
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "900",
+            fontSize: "2vw",
+          }}
+        >
+          Featured
+        </h2>
+        <h1
+          style={{
+            fontFamily: "Irish Grover, cursive",
+            fontWeight: "400",
+            fontSize: "3vw",
+          }}
+        >
+          Breaking into Offensive Security:
+          <br />
+          Advice from Shadow Collective's Lead, Nyra
+        </h1>
+        <p
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "900",
+            fontSize: "1.5vw",
+          }}
+        >
+          Let's get one thing straight: you don't need a Computer Science degree{" "}
+          <br />
+          to break into pentesting. We caught up with Nyra, a lead red teamer at
+          <br />
+          Shadow Collective, to talk about hacking culture, bug bounty myths,
+          <br />
+          and how anyone can break into this evolving cybersecurity field.
+        </p>
       </div>
-    </div>
+    </section>
   );
 };
 

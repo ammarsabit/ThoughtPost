@@ -52,7 +52,7 @@ const BlogCard = ({
         <GoDotFill size={30} className="align-self-center " />
 
         <span
-          className="fw-medium text-muted align-self-center"
+          className="fw-medium align-self-center"
           style={{ fontSize: "clamp(1rem, 3vw, 1.3rem)" }}
         >
           {formattedDate}

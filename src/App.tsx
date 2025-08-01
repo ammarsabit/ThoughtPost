@@ -161,7 +161,7 @@ function App() {
 
   return (
     <div
-      className={`app-container position-relative pb-4 pt-1 px-4 page-${theme}`}
+      className={`app-container position-relative pb-4 pt-2 px-4 page-${theme}`}
     >
       {isConfirming && <Confirmation />}
       <NavBar />
@@ -169,11 +169,7 @@ function App() {
         <Route
           path="/"
           element={
-            <Home
-              blogs={blogs}
-              loading={isLoading}
-              errorMessage={error}
-            />
+            <Home blogs={blogs} loading={isLoading} errorMessage={error} />
           }
         />
         <Route
