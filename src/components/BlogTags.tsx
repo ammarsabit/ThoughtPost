@@ -1,10 +1,8 @@
-import React from "react";
-
 interface Props {
-    tags: string;
-} 
+  tags: string;
+}
 
-const BlogTags = ({tags}: Props) => {
+const BlogTags = ({ tags }: Props) => {
   return (
     <div>
       <ul className="list-group list-group-horizontal list-unstyled mb-2">

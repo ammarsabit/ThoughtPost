@@ -35,10 +35,10 @@ interface FormData {
   blogId: string;
   title: string;
   author: string;
-  Occupation: string;
+  occupation: string;
   description: string;
   content: string;
-  PhotoData: FileList;
+  photoData: FileList;
   tags: string;
 }
 
@@ -48,7 +48,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   const [theme] = useAtom(themeAtom);
-  const [formAction, setFormAction] = useAtom(formActionAtom);
+  const [formAction] = useAtom(formActionAtom);
 
   // Delete post
   const [selection, setSelection] = useAtom(confirmAtom);
@@ -86,7 +86,7 @@ function App() {
 
   const handleAddBlog = (data: FormData) => {
     const origionalBlog = [...blogs];
-    const imageFile = data.PhotoData?.[0];
+    const imageFile = data.photoData?.[0];
     const imageData = new FormData();
     imageData.append("image", imageFile);
 
@@ -121,7 +121,7 @@ function App() {
     if (!blogToEdit) return;
 
     const now = Date();
-    const imageFile = data.PhotoData?.[0];
+    const imageFile = data.photoData?.[0];
     const imageData = new FormData();
     imageData.append("image", imageFile);
 
@@ -135,7 +135,7 @@ function App() {
           ...blogToEdit,
           title: data.title,
           author: data.author,
-          occupation: data.Occupation,
+          occupation: data.occupation,
           description: data.description,
           content: data.content,
           tags: data.tags,

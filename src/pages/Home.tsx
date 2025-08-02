@@ -53,11 +53,11 @@ const Home = ({ blogs, loading, errorMessage }: Props) => {
                   <div className={`blog-card page-${theme} mb-3`}>
                     <BlogCard
                       blogId={blog.id}
-                      blogPhoto={blog.blogPhoto}
-                      title={blog.title}
-                      description={blog.description}
                       avatar={blog.avatar}
                       author={blog.author}
+                      title={blog.title}
+                      description={blog.description}
+                      blogPhoto={blog.blogPhoto}
                       createdAt={blog.createdAt}
                     />
                   </div>

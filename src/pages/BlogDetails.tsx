@@ -26,11 +26,11 @@ interface UpdatedBlog {
   blogId: string;
   title: string;
   author: string;
+  occupation: string;
   description: string;
   content: string;
+  photoData: FileList;
   tags: string;
-  PhotoData: FileList;
-  Occupation: string;
 }
 
 interface Props {
@@ -51,7 +51,7 @@ const BlogDetails = ({
   const { blogId } = useParams<{ blogId: string }>();
   const [formAction, setFormAction] = useAtom(formActionAtom);
   const blog = blogs.find((blog) => blog.id === blogId);
-  
+
   if (!blog) return <p className="text-danger">Blog not found!</p>;
 
   const onFormSubmit = (data: UpdatedBlog) => {
@@ -70,8 +70,7 @@ const BlogDetails = ({
             description: blog.description,
             content: blog.content,
             tags: blog.tags,
-            PhotoData: blog.blogPhoto,
-            Occupation: blog.occupation,
+            occupation: blog.occupation,
           }}
         />
       )}

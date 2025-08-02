@@ -4,19 +4,22 @@ import { themeAtom } from "../App";
 
 export const formActionAtom = atom(false);
 
-interface FormData {
+interface ToEdit {
   blogId: string;
   title: string;
   author: string;
-  Occupation: string;
+  occupation: string;
   description: string;
   content: string;
-  PhotoData: FileList;
   tags: string;
 }
 
+interface FormData extends ToEdit {
+  photoData: FileList;
+}
+
 interface Props {
-  edit?: FormData;
+  edit?: ToEdit;
   formSubmit: (data: FormData) => void;
 }
 
@@ -76,12 +79,12 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                     Occupation
                   </label>
                   <input
-                    {...register("Occupation", { required: true })}
+                    {...register("occupation", { required: true })}
                     id="Occupation"
                     type="text"
                     className={`form-control page-${theme}`}
                     placeholder="Pen-Tester"
-                    defaultValue={edit ? edit.Occupation : ""}
+                    defaultValue={edit ? edit.occupation : ""}
                   />
                   {errors.description?.type === "required" && (
                     <p className="text-danger">Occupation is required</p>
@@ -125,12 +128,12 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
                   Blog Photo
                 </label>
                 <input
-                  {...register("PhotoData", { required: true })}
+                  {...register("photoData", { required: true })}
                   id="PhotoData"
                   type="file"
                   className={`form-control page-${theme}`}
                 />
-                {errors.PhotoData?.type === "required" && (
+                {errors.photoData?.type === "required" && (
                   <p className="text-danger">Blog Photo is required</p>
                 )}
               </div>
