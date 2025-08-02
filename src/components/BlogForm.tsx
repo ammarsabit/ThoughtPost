@@ -41,7 +41,7 @@ const BlogForm = ({ edit, formSubmit }: Props) => {
 
   return (
     <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 z-3 p-0">
-      <div className={`card card-form rounded-4 page-${theme} mt-5`}>
+      <div className={`card card-form rounded-4 page-${theme}`}>
         <div className="card-body">
           <span>
             {edit ? (
