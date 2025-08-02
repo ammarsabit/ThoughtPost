@@ -32,7 +32,7 @@ const BlogCard = ({
         <h1 className="fs-4 fw-bolder">
           {title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="fs-5 fw-normal">
+        <p className="fs-6 fw-normal">
           {description.split(" ").slice(0, 30).join(" ")}
         </p>
       </div>
@@ -45,7 +45,7 @@ const BlogCard = ({
         />
         <span
           className="align-self-center d-inline ms-2 fw-medium mb-0 color-dark text-wrap"
-          style={{ fontSize: "clamp(1rem, 3vw, 1.3rem )" }}
+          style={{ fontSize: "1rem" }}
         >
           {author}
         </span>
@@ -53,7 +53,7 @@ const BlogCard = ({
 
         <span
           className="fw-medium align-self-center"
-          style={{ fontSize: "clamp(1rem, 3vw, 1.3rem)" }}
+          style={{ fontSize: "1rem" }}
         >
           {formattedDate}
         </span>

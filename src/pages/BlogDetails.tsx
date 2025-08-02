@@ -4,8 +4,16 @@ import { FaTrashAlt } from "react-icons/fa";
 import BookmarkIcon from "../components/BookmarkIcon";
 import BlogCard from "../components/UserCard";
 import BlogTags from "../components/BlogTags";
-import BlogForm, { formActionAtom } from "../components/BlogForm";
+import BlogForm from "../components/BlogForm";
 import { useAtom } from "jotai";
+import DeletePopUp from "../components/DeletePopUp";
+import { useEffect } from "react";
+import {
+  deleteActionAtom,
+  deletePopUpAtom,
+  deleteTitleAtom,
+  formActionAtom,
+} from "../States/AtomStates";
 
 interface Blog {
   id: string;
@@ -49,14 +57,34 @@ const BlogDetails = ({
   onUpdate,
 }: Props) => {
   const { blogId } = useParams<{ blogId: string }>();
+
   const [formAction, setFormAction] = useAtom(formActionAtom);
+  const [deleteAction, setDeleteAction] = useAtom(deleteActionAtom);
+  const [deletePopUp, setDeletePopUp] = useAtom(deletePopUpAtom);
+  const [, setDeleteTitle] = useAtom(deleteTitleAtom);
+
   const blog = blogs.find((blog) => blog.id === blogId);
 
-  if (!blog) return <p className="text-danger">Blog not found!</p>;
+  useEffect(() => {
+    if (deleteAction === "delete" && blog) {
+      onDelete(blog.id);
+      setDeletePopUp(false);
+      setDeleteAction("");
+    }
+  }, [deleteAction]);
+
+  const handleDeleteClick = () => {
+    if (blog) {
+      setDeletePopUp(true);
+      setDeleteTitle(blog.title);
+    }
+  };
 
   const onFormSubmit = (data: UpdatedBlog) => {
     onUpdate(data);
   };
+
+  if (!blog) return <p className="text-danger">Blog not found!</p>;
 
   return (
     <>
@@ -74,6 +102,7 @@ const BlogDetails = ({
           }}
         />
       )}
+      {deletePopUp && <DeletePopUp />}
       {errorMessage && <p className="text-danger">{errorMessage}</p>}
       <div
         style={{ maxWidth: "900px" }}
@@ -109,7 +138,8 @@ const BlogDetails = ({
               size={30}
               color="red"
               className="mx-1 cursor-pointer"
-              onClick={() => onDelete(blog.id)}
+              // onClick={() => onDelete(blog.id)}
+              onClick={handleDeleteClick}
             />
           </div>
         </div>

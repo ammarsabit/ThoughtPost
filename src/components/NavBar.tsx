@@ -1,11 +1,11 @@
 import { Link, NavLink } from "react-router";
 import { useAtom } from "jotai";
-import { themeAtom } from "../App";
+import { themeAtom } from "../States/AtomStates";
 import { IoIosSunny } from "react-icons/io";
 import { BsMoonStarsFill } from "react-icons/bs";
 import logo_dark from "../assets/ThoughtPost_Logo_Dark.png";
 import logo_light from "../assets/ThoughtPost_Logo_Light.png";
-import { formActionAtom } from "./BlogForm";
+import { formActionAtom } from "../States/AtomStates";
 
 const NavBar = () => {
   const [theme, setTheme] = useAtom(themeAtom);

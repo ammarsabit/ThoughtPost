@@ -3,7 +3,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import Hero from "../components/Hero.tsx";
 import Footer from "../components/Footer.tsx";
 import { useAtom } from "jotai";
-import { themeAtom } from "../App.tsx";
+import { themeAtom } from "../States/AtomStates.tsx";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

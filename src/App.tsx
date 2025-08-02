@@ -1,20 +1,17 @@
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import About from "./pages/About";
 import apiClient from "./services/api-client";
 import BlogDetails from "./pages/BlogDetails";
 import BookMarks from "./pages/BookMarks";
-import ConfirmDelete from "./components/ConfirmDelete";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import "./App.css";
 import axios from "axios";
-import BlogForm, { formActionAtom } from "./components/BlogForm";
+import BlogForm from "./components/BlogForm";
+import { formActionAtom, themeAtom } from "./States/AtomStates";
 
-export const themeAtom = atom("light");
-export const confirmAtom = atom("");
-export const deleteTitleAtom = atom("");
 
 interface Blog {
   id: string;
@@ -49,12 +46,6 @@ function App() {
 
   const [theme] = useAtom(themeAtom);
   const [formAction] = useAtom(formActionAtom);
-
-  // Delete post
-  const [selection, setSelection] = useAtom(confirmAtom);
-  const [, setDeleteTitle] = useAtom(deleteTitleAtom);
-  const [isConfirming, setConfirming] = useState(false);
-  const [blogIdToDelete, setBlogIdToDelete] = useState("");
 
   useEffect(() => {
     apiClient
@@ -162,34 +153,15 @@ function App() {
   const handleDelete = (id: string) => {
     const blogToDelete = blogs.find((blog) => blog.id === id);
     if (!blogToDelete) return;
-
-    setDeleteTitle(blogToDelete.title);
-    setConfirming(true);
-    setBlogIdToDelete(id);
-    setSelection("");
+    const updatedBlogs = blogs.filter((blog) => blog.id !== blogToDelete.id);
+    apiClient
+      .delete("/blogs/" + blogToDelete.id)
+      .then(() => setBlogs(updatedBlogs))
+      .catch((error) => setError(error.message));
   };
 
-  useEffect(() => {
-    if (!isConfirming || !blogIdToDelete) return;
-
-    if (selection === "delete") {
-      const updatedBlogs = blogs.filter((blog) => blog.id !== blogIdToDelete);
-      apiClient
-        .delete("/blogs/" + blogIdToDelete)
-        .then(() => setBlogs(updatedBlogs))
-        .catch((error) => setError(error.message));
-    }
-
-    setSelection("");
-    setBlogIdToDelete("");
-    setConfirming(false);
-  }, [selection]);
-
   return (
-    <div
-      className={`app-container position-relative pb-4 pt-2 px-4 page-${theme}`}
-    >
-      {isConfirming && <ConfirmDelete />}
+    <div className={`app-container position-relative p-2 page-${theme}`}>
       {formAction && <BlogForm formSubmit={handleAddBlog} />}
       <NavBar />
       <Routes>

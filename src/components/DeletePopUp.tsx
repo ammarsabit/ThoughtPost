@@ -1,10 +1,16 @@
 import { useAtom } from "jotai";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import { confirmAtom, deleteTitleAtom, themeAtom } from "../App";
+import { themeAtom } from "../States/AtomStates";
+import {
+  deleteActionAtom,
+  deletePopUpAtom,
+  deleteTitleAtom,
+} from "../States/AtomStates";
 
-const ConfirmDelete = () => {
+const DeletePopUp = () => {
   const [theme] = useAtom(themeAtom);
-  const [, setSelection] = useAtom(confirmAtom);
+  const [, setDeleteAction] = useAtom(deleteActionAtom);
+  const [, setDeletePopUp] = useAtom(deletePopUpAtom);
   const [deleteTitle] = useAtom(deleteTitleAtom);
 
   return (
@@ -23,13 +29,13 @@ const ConfirmDelete = () => {
         <div className="align-self-end">
           <button
             className="btn btn-outline-success mx-2"
-            onClick={() => setSelection("cancel")}
+            onClick={() => setDeletePopUp(false)}
           >
             Cancel
           </button>
           <button
             className="btn btn-danger"
-            onClick={() => setSelection("delete")}
+            onClick={() => setDeleteAction("delete")}
           >
             Delete
           </button>
@@ -39,4 +45,4 @@ const ConfirmDelete = () => {
   );
 };
 
-export default ConfirmDelete;
+export default DeletePopUp;

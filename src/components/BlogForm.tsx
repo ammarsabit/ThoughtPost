@@ -1,8 +1,8 @@
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
-import { themeAtom } from "../App";
+import { formActionAtom, themeAtom } from "../States/AtomStates";
 
-export const formActionAtom = atom(false);
+
 
 interface ToEdit {
   blogId: string;
